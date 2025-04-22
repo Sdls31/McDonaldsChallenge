@@ -6,6 +6,7 @@ import { Burger } from "../components/Burger";
 import { Personalize } from "../components/Personalize";
 import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
+import AvatarApp from "../components/AvatarApp";
 
 export const Routes = () => {
   return (
@@ -37,13 +38,14 @@ export const Routes = () => {
       />
 
       <Route
-        path="/nuggets"
+        path={RoutesEnum.NUGGETS}
         element={
           <CartProvider>
             <NuggetsProcess />
           </CartProvider>
         }
       />
+      <Route path={RoutesEnum.AVATAR} element={<AvatarApp />} />
     </RoutesFromRouter>
   );
 };

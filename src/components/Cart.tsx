@@ -70,7 +70,7 @@ export const Cart: React.FC<CartProps> = ({
           <p className="text-sm text-gray-500 mb-4">Details</p>
 
           {/* Lista de productos en el carrito */}
-          <div className="overflow-y-auto max-h-[300px] pr-1">
+          <div className="overflow-y-auto max-h-[250px] pr-1">
             {cartItems.map((item) => (
               <div
                 key={item.id + "-" + Math.random()}

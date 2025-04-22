@@ -117,87 +117,181 @@ export const menu: MenuDetails = {
 
   chicken: [
     {
+      id: 1,
       title: "McPollo",
       img: "src/assets/MenuChicken/McPollo.svg",
       link: RoutesEnum.BURGERS,
+      price: 3.99,
+      description:
+        "Delicious breaded chicken with lettuce and mayo on a soft bun.",
+      calories: 410,
     },
     {
+      id: 2,
       title: "McCrispy Deluxe",
       img: "src/assets/MenuChicken/McCrispyDeluxe.svg",
       link: RoutesEnum.BURGERS,
+      price: 4.79,
+      description:
+        "Crispy chicken fillet with tomato, lettuce and creamy sauce.",
+      calories: 470,
     },
     {
+      id: 3,
       title: "McCrispy Spicy",
       img: "src/assets/MenuChicken/McCrispySpicy.svg",
       link: RoutesEnum.BURGERS,
+      price: 4.89,
+      description: "Spicy crispy chicken with bold flavor and crunchy texture.",
+      calories: 490,
     },
     {
+      id: 4,
       title: "McCrispy CBO",
       img: "src/assets/MenuChicken/McCrispyCBO.svg",
       link: RoutesEnum.BURGERS,
+      price: 5.29,
+      description:
+        "Crispy chicken with bacon, cheese, and onions on a toasted bun.",
+      calories: 520,
     },
     {
+      id: 5,
       title: "McNuggets 4",
       img: "src/assets/MenuChicken/Nuggets4.svg",
       link: RoutesEnum.NUGGETS,
+      price: 2.49,
+      description: "4 tender chicken nuggets, golden and crispy.",
+      calories: 170,
     },
     {
+      id: 6,
       title: "McNuggets 6",
       img: "src/assets/MenuChicken/Nuggets6.svg",
       link: RoutesEnum.NUGGETS,
+      price: 3.49,
+      description: "6 crispy chicken nuggets perfect for a snack or meal.",
+      calories: 250,
     },
     {
+      id: 7,
       title: "McNuggets 10",
       img: "src/assets/MenuChicken/Nuggets10.svg",
       link: RoutesEnum.NUGGETS,
+      price: 4.89,
+      description: "10 chicken nuggets with a crispy outside and juicy inside.",
+      calories: 420,
     },
     {
+      id: 8,
       title: "McNuggets 20",
       img: "src/assets/MenuChicken/Nuggets20.svg",
       link: RoutesEnum.NUGGETS,
+      price: 7.99,
+      description: "20-piece nuggets perfect for sharing or big appetites.",
+      calories: 840,
     },
     {
+      id: 9,
       title: "Jalapeño Chicken",
       img: "src/assets/MenuChicken/McJalapeño.svg",
       link: RoutesEnum.BURGERS,
+      price: 4.59,
+      description:
+        "Spicy jalapeño chicken burger with melted cheese and zesty sauce.",
+      calories: 460,
     },
   ],
   combos: [
     {
+      id: 1,
       title: "McCrispy Deluxe Combo",
       img: "src/assets/MenuCombos/McCrispyDeluxe.svg",
+      link: RoutesEnum.BURGERS,
+      price: 7.99,
+      description:
+        "Crispy chicken fillet with lettuce and tomato, served with fries and drink.",
+      calories: 870,
     },
     {
+      id: 2,
       title: "McCrispy Spicy Combo",
       img: "src/assets/MenuCombos/McCrispySpicy.svg",
+      link: RoutesEnum.BURGERS,
+      price: 8.29,
+      description:
+        "Spicy crispy chicken sandwich combo with fries and a refreshing drink.",
+      calories: 890,
     },
     {
+      id: 3,
       title: "Cheeseburger Combo",
       img: "src/assets/MenuCombos/CheeseBurger.svg",
+      link: RoutesEnum.BURGERS,
+      price: 6.49,
+      description:
+        "Classic cheeseburger served with golden fries and your choice of drink.",
+      calories: 790,
     },
     {
+      id: 4,
       title: "Double Quarter Pounder® Combo",
       img: "src/assets/MenuCombos/DoubleQuarter.svg",
+      link: RoutesEnum.BURGERS,
+      price: 9.49,
+      description:
+        "Double beef patties with cheese, served with fries and a cold drink.",
+      calories: 1050,
     },
     {
+      id: 5,
       title: "Big Mac® Combo",
       img: "src/assets/MenuCombos/BigMac.svg",
+      link: RoutesEnum.BURGERS,
+      price: 8.19,
+      description:
+        "The iconic Big Mac® with fries and a drink to complete the experience.",
+      calories: 950,
     },
     {
+      id: 6,
       title: "McBacon Combo",
       img: "src/assets/MenuCombos/McBacon.svg",
+      link: RoutesEnum.BURGERS,
+      price: 7.89,
+      description:
+        "Juicy burger with crispy bacon, served with fries and a soft drink.",
+      calories: 880,
     },
     {
+      id: 7,
       title: "Quarter Pounder® with Cheese Combo",
       img: "src/assets/MenuCombos/QuaterPound.svg",
+      link: RoutesEnum.BURGERS,
+      price: 8.69,
+      description:
+        "Classic Quarter Pounder® with Cheese, fries, and your favorite drink.",
+      calories: 940,
     },
     {
+      id: 8,
       title: "BBQ Burger Combo",
       img: "src/assets/MenuCombos/BbqBurger.svg",
+      link: RoutesEnum.BURGERS,
+      price: 7.59,
+      description:
+        "Grilled beef with smoky BBQ sauce, fries, and a chilled beverage.",
+      calories: 910,
     },
     {
+      id: 9,
       title: "Double Cheeseburger Combo",
       img: "src/assets/MenuCombos/DoubleCheese.svg",
+      link: RoutesEnum.BURGERS,
+      price: 7.29,
+      description:
+        "Double the cheese and beef, paired with fries and a cold drink.",
+      calories: 870,
     },
   ],
 };
