@@ -1,0 +1,49 @@
+import { Route, Routes as RoutesFromRouter } from "react-router-dom";
+import { HomePage } from "../components/HomePage";
+import { RoutesEnum } from "./RoutesEnum";
+import { Menu } from "../pages/Menu";
+import { Burger } from "../components/Burger";
+import { Personalize } from "../components/Personalize";
+import { NuggetsProcess } from "../components/NuggetsPage";
+import { CartProvider } from "../context/CartContext";
+
+export const Routes = () => {
+  return (
+    <RoutesFromRouter>
+      <Route path={RoutesEnum.HOME} element={<HomePage />} />
+      <Route
+        path={RoutesEnum.MAIN}
+        element={
+          <CartProvider>
+            <Menu />
+          </CartProvider>
+        }
+      />
+      <Route
+        path={RoutesEnum.BURGERS}
+        element={
+          <CartProvider>
+            <Burger />
+          </CartProvider>
+        }
+      />
+      <Route
+        path={RoutesEnum.PERSONALIZE}
+        element={
+          <CartProvider>
+            <Personalize />
+          </CartProvider>
+        }
+      />
+
+      <Route
+        path="/nuggets"
+        element={
+          <CartProvider>
+            <NuggetsProcess />
+          </CartProvider>
+        }
+      />
+    </RoutesFromRouter>
+  );
+};

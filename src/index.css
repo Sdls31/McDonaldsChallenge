@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-global: 'Poppins', sans-serif;
+    --red-mcdonalds: #DA291C;
+    --yellow-mcdonalds: #FFC72C;
+    --green-mcdonalds: #264F36;
+    --font-color: #4F4F4F;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none; 
+  touch-action: none; 
+}
+@layer utilities {
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+  }
+}
