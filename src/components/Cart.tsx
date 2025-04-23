@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Plus, Minus, X } from "lucide-react";
+import { useCart } from "../context/CartContext";
 
 export type CartItem = {
   id: string;
@@ -18,11 +19,11 @@ interface CartProps {
 
 export const Cart: React.FC<CartProps> = ({
   cartItems,
-  updateQuantity,
   totalItems,
   totalPrice,
 }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const { removeFromCart, addToCart } = useCart();
 
   return (
     <>
@@ -93,17 +94,22 @@ export const Cart: React.FC<CartProps> = ({
                 {/* Controles de cantidad para cada producto */}
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => updateQuantity(item.id, -1)}
+                    onClick={() => removeFromCart(item.id)}
                     className="px-2 py-1 border border-gray-300 rounded"
-
-
-                    
                   >
                     <Minus className="w-4 h-4" />
                   </button>
                   <span className="w-4 text-center">{item.quantity}</span>
                   <button
-                    onClick={() => updateQuantity(item.id, 1)}
+                    onClick={() =>
+                      addToCart({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity,
+                        image: item.image,
+                      })
+                    }
                     className="bg-[var(--yellow-mcdonalds)] px-2 py-1 rounded"
                   >
                     <Plus className="w-4 h-4" />
