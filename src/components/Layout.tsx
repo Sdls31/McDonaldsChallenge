@@ -29,8 +29,9 @@ export const Layout: React.FC<WrapperProps> = ({
           >
             <img src="src/assets/Vector.svg" alt="Botón" className="w-6 h-6" />
           </button>
-          <div className="w-80 bg-(--yellow-mcdonalds) rounded-bl-2xl">
-            <p className="font-[var(--font-global)] text-[25px] pl-[1rem] font-bold">
+
+          <div className="w-80 bg-[var(--yellow-mcdonalds)] rounded-bl-2xl py-2">
+            <p className="font-[var(--font-global)] text-[25px] pl-4 pr-4 font-bold leading-tight whitespace-normal break-words">
               {Title ? Title : "Menu"}
             </p>
           </div>

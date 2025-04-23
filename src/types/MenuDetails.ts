@@ -15,6 +15,8 @@ interface MenuDetails {
   burgers: MenuItem[];
   chicken: MenuItem[];
   combos: MenuItem[];
+  beverages: MenuItem[];
+  fries: MenuItem[];
 }
 
 interface VerticalMenuType {
@@ -25,7 +27,7 @@ export const menu: MenuDetails = {
   burgers: [
     {
       id: 1,
-      title: "Quarter Pounder ®✶ with Cheese",
+      title: "Quarter Pounder ®",
       img: "src/assets/MenuBurgers/QuarterPoundCheese.svg",
       link: RoutesEnum.BURGERS,
       price: 6.49,
@@ -65,7 +67,7 @@ export const menu: MenuDetails = {
     },
     {
       id: 5,
-      title: "Classic McDonald's Burger",
+      title: "Classic McDonald's",
       img: "src/assets/MenuBurgers/ClassicBurger.svg",
       link: RoutesEnum.BURGERS,
       price: 3.49,
@@ -85,7 +87,7 @@ export const menu: MenuDetails = {
     },
     {
       id: 7,
-      title: "Double Quarter Pounder®✶ with Cheese",
+      title: "Dbl Quarter Pounder®",
       img: "src/assets/MenuBurgers/DoubleQuarter.svg",
       link: RoutesEnum.BURGERS,
       price: 7.29,
@@ -235,7 +237,7 @@ export const menu: MenuDetails = {
     },
     {
       id: 4,
-      title: "Double Quarter Pounder® Combo",
+      title: "Dbl Quarter Pounder® Combo",
       img: "src/assets/MenuCombos/DoubleQuarter.svg",
       link: RoutesEnum.BURGERS,
       price: 9.49,
@@ -265,7 +267,7 @@ export const menu: MenuDetails = {
     },
     {
       id: 7,
-      title: "Quarter Pounder® with Cheese Combo",
+      title: "Quarter Pounder® Combo",
       img: "src/assets/MenuCombos/QuaterPound.svg",
       link: RoutesEnum.BURGERS,
       price: 8.69,
@@ -294,6 +296,73 @@ export const menu: MenuDetails = {
       calories: 870,
     },
   ],
+  beverages: [
+    {
+      id: 1,
+      title: "Coca-Cola",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 2,
+      title: "Pepsi",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 3,
+      title: "Sprite",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 4,
+      title: "Fanta Naranja",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 5,
+      title: "7Up",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 6,
+      title: "Mountain Dew",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 7,
+      title: "Dr Pepper",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 8,
+      title: "Fresca",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+    {
+      id: 9,
+      title: "Canada Dry",
+      img: "src/assets/Soda.png",
+      price: 1.69,
+    },
+  ],
+  fries: [
+    {
+      id: 1,
+      title: "Choose your size",
+      img: "src/assets/MenuItems/McFries.svg", // MISMA IMAGEN DEL MENÚ VERTICAL
+      link: RoutesEnum.FRIES,
+      description: "Select the right portion of fries for your craving.",
+    },
+  ],
+  
+  
 };
 
 export const findMenuItemByTitle = (title: string) => {

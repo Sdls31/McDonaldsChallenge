@@ -6,12 +6,16 @@ import { Burger } from "../components/Burger";
 import { Personalize } from "../components/Personalize";
 import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
+import { OrderType } from "../components/OrderType";
 import AvatarApp from "../components/AvatarApp";
+import { FriesProcess } from "../components/FriesPage";
+
 
 export const Routes = () => {
   return (
     <RoutesFromRouter>
       <Route path={RoutesEnum.HOME} element={<HomePage />} />
+      <Route path={RoutesEnum.TYPE} element={<OrderType />} />
       <Route
         path={RoutesEnum.MAIN}
         element={
@@ -36,12 +40,19 @@ export const Routes = () => {
           </CartProvider>
         }
       />
-
       <Route
         path={RoutesEnum.NUGGETS}
         element={
           <CartProvider>
             <NuggetsProcess />
+          </CartProvider>
+        }
+      />
+      <Route
+        path={RoutesEnum.FRIES}
+        element={
+          <CartProvider>
+            <FriesProcess />
           </CartProvider>
         }
       />

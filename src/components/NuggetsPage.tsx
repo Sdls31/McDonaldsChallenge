@@ -353,10 +353,8 @@ gsap.to(rightLid, {
               </button>
             </div>
           </div>
-
-    </div>
-    </div>
-
+        </div>
+      </div>
     </div>
 
   );
