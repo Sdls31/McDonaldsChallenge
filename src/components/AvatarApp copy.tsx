@@ -234,15 +234,19 @@ export default function AvatarApp() {
       : "",
     hair: features && !features.gorra_deportiva
       ? features.cabello_rizado
-        ? "/mold-head/short-curly-hair.png"
-        : features.cabello_largo
-          ? "/mold-head/men-long-hair.png"
-          : features.cabello_corto
-            ? "/mold-head/normal-men-hair-corto.png"
-            : ""
+        ? "/mold-head/short curly hair.png"
+        : features.cabello_corto
+          ? "/mold-head/short hair.png"
+          : features.cabello_largo
+            ? `/mold-head/${
+                features.cabello_castaño ? "brown-long-hair" : "blond-long-hair"
+              }.png`
+            : `/mold-head/${
+                features.cabello_castaño ? "short hair" : "blond-medium-hair"
+              }.png`
       : "",
     beard: features?.barba_completa_corta
-      ? "/mold-head/short-beard.png"
+      ? "/mold-head/beard.png"
       : features?.bigote
       ? "/mold-head/mustache.png"
       : "",
