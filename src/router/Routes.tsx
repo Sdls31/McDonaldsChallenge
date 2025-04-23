@@ -38,7 +38,6 @@ export const Routes = () => {
           </CartProvider>
         }
       />
-
       <Route
         path={RoutesEnum.NUGGETS}
         element={
