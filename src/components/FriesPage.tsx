@@ -3,6 +3,8 @@ import { gsap } from "gsap";
 import { RoutesEnum } from "../router/RoutesEnum";
 import { Layout } from "./Layout";
 import { HiPlus, HiMinus } from "react-icons/hi";
+import { useTranslation } from "react-i18next";
+
 
 const PRICE_PER_FRY = 0.20;
 const SIZES = ["S", "M", "L"];
@@ -19,6 +21,7 @@ const FriesPage = () => {
   const boxRef = useRef<HTMLDivElement>(null);
   const boxImgRef = useRef<HTMLImageElement>(null);
   const fryStaticRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
 
   const totalFries = COUNTS[sizeIndex] * orderCount;
@@ -315,7 +318,7 @@ fryBehindRef?.appendChild(fry);
                 }}
                 className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
               >
-                Add to cart
+               {t("proceed_to_cart")}
               </button>
             </div>
           </div>

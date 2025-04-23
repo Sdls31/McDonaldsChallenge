@@ -3,8 +3,10 @@ import { Layout } from "./Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { findMenuItemByTitle } from "../types/MenuDetails";
+import { useTranslation } from "react-i18next";
 
 export const Burger = () => {
+  const { t } = useTranslation();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const location = useLocation();
@@ -62,13 +64,13 @@ export const Burger = () => {
           }
           className="w-full py-3 bg-[var(--yellow-mcdonalds)] rounded-[10px] text-xl font-medium"
         >
-          Add to cart
+         {t("add_to_cart")}
         </button>
       </div>
       <div className="w-full md:w-1/2 pl-0 md:pl-6 mt-6 md:mt-0">
         <div className="text-xl">{burgerObject?.calories} Cal.</div>
         <p className="text-xl leading-relaxed my-4">
-          {burgerObject?.description}
+          {t(burgerObject?.description || "")}
         </p>
         <button
           className="text-2xl underline font-bold mb-8"
@@ -82,7 +84,7 @@ export const Burger = () => {
             });
           }}
         >
-          Personalize
+          {t("personalize")}
         </button>
       </div>
     </div>

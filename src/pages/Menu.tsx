@@ -6,12 +6,14 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface GridMenuProps {
   onTitleChange: (title: string) => void;
 }
 
 const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [selectedAnimation, setSelectedAnimation] = useState<number>(0);
   const currentItem = verticalMenuItems.Items[selectedAnimation];
@@ -75,7 +77,7 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
                         isActive ? "text-[15px]" : "text-[12px]"
                       }`}
                     >
-                      {item.title}
+                      {t(item.title)}
                     </p>
                   </div>
                 )}
@@ -110,13 +112,13 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
                   className="w-16 h-16 object-contain"
                 />
                 <p className="text-center mt-2 font-[var(--font-global)] text-[15px] font-bold text-[#4F4F4F] px-2 leading-snug line-clamp-2">
-                  {item.title}
+                  {t(item.title)}
                 </p>
               </div>
             ))
           ) : (
             <div className="col-span-3 row-span-3 text-center text-gray-600 font-medium flex items-center justify-center">
-              No hay elementos para mostrar.
+              {t("No items")}
             </div>
           )}
         </div>
