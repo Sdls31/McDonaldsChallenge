@@ -73,8 +73,13 @@ export const Burger = () => {
         <button
           className="text-2xl underline font-bold mb-8"
           onClick={() => {
-            console.log("Click detectado");
-            navigate("/personalize");
+            navigate("/personalize", {
+              state: {
+                product: {
+                  name: burgerObject?.title,
+                },
+              },
+            });
           }}
         >
           Personalize

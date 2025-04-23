@@ -1,12 +1,14 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../components/Layout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RoutesEnum } from "../router/RoutesEnum";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { findMenuItemByTitle } from "../types/MenuDetails";
+import { useCart } from "../context/CartContext";
 type Ingredients = {
   topBun: boolean;
   bottomBun: boolean;
@@ -21,6 +23,19 @@ export const Personalize = () => {
   const navigate = useNavigate();
   const previousIndexRefMeat = useRef(0);
   const previousIndexRefCheese = useRef(0);
+  const location = useLocation();
+  const { product } = location.state || {};
+  const burgerObject = findMenuItemByTitle(product.name);
+  const { addToCart } = useCart();
+  const [meatPrice, setMeatPrice] = useState<number>(0);
+  const [cheesePrice, setCheesePrice] = useState<number>(0);
+
+  const prices = {
+    meat: 1.99,
+    cheese: 0.99,
+    lettuce: 1.59,
+    tomato: 4.9,
+  };
 
   const meatImgArray = [
     { img: "src/assets/Personalize/Meat1.svg" },
@@ -85,10 +100,12 @@ export const Personalize = () => {
     ingredients.cheese;
 
   // Ajustar tamaño y espacio dinámicamente
-  const ingredientSize = totalIngredients > 7 ? 140 : 180;
-  const bottomBunSize = totalIngredients > 7 ? 220 : 300;
-  const topBunSize = totalIngredients > 7 ? 180 : 200;
+  const ingredientSize = totalIngredients > 7 ? 140 : 170;
+  const bottomBunSize = totalIngredients > 7 ? 220 : 260;
+  const topBunSize = totalIngredients > 7 ? 140 : 170;
   const spacingClass = totalIngredients > 7 ? "space-y-[4px]" : "space-y-[8px]";
+  const meatSwiperRef = useRef<any>(null);
+  const cheeseSwiperRef = useRef<any>(null);
 
   const PersonalizeContent = (
     <div className="flex flex-col h-full">
@@ -102,7 +119,7 @@ export const Personalize = () => {
                 src="src/assets/Personalize/bread1.svg"
                 alt="Top Bun"
                 style={{ width: `${topBunSize}px` }}
-                className="z-50 transition-all duration-300"
+                className="z-30 transition-all duration-300"
               />
             )}
             {ingredients.lettuce > 0 && (
@@ -110,7 +127,7 @@ export const Personalize = () => {
                 src="src/assets/Personalize/lettuce.svg"
                 alt="Lettuce"
                 style={{ width: `${ingredientSize}px` }}
-                className="z-40 transition-all duration-300"
+                className="z-30 transition-all duration-300"
               />
             )}
             {ingredients.tomato > 0 && (
@@ -123,6 +140,7 @@ export const Personalize = () => {
             )}
             {/* Swiper Cheese*/}
             <Swiper
+              onSwiper={(swiper) => (cheeseSwiperRef.current = swiper)}
               onSlideChange={(swiper) => {
                 const newIndex = swiper.realIndex;
                 const prevIndex = previousIndexRefCheese.current;
@@ -132,11 +150,13 @@ export const Personalize = () => {
                     ...ingredients,
                     cheese: ingredients.cheese + 1,
                   });
+                  setCheesePrice(cheesePrice + prices.cheese);
                 } else if (newIndex < prevIndex) {
                   setIngredients({
                     ...ingredients,
                     cheese: ingredients.cheese - 1,
                   });
+                  setCheesePrice(cheesePrice - prices.cheese);
                 }
 
                 previousIndexRefCheese.current = newIndex;
@@ -154,7 +174,8 @@ export const Personalize = () => {
                     <img
                       src={item.img}
                       alt={`cheese-${index}`}
-                      className="max-w-full max-h-full object-contain"
+                      style={{ maxWidth: `${ingredientSize}px` }}
+                      className=" max-h-full object-contain"
                     />
                   </div>
                 </SwiperSlide>
@@ -162,6 +183,7 @@ export const Personalize = () => {
             </Swiper>
             {/* Swiper Carne*/}
             <Swiper
+              onSwiper={(swiper) => (meatSwiperRef.current = swiper)}
               spaceBetween={50}
               slidesPerView={1}
               className="w-[200px] h-[80px]"
@@ -174,11 +196,13 @@ export const Personalize = () => {
                     ...ingredients,
                     meat: ingredients.meat + 1,
                   });
+                  setMeatPrice(meatPrice + prices.meat);
                 } else if (newIndex < prevIndex) {
                   setIngredients({
                     ...ingredients,
                     meat: ingredients.meat - 1,
                   });
+                  setMeatPrice(meatPrice - prices.meat);
                 }
 
                 previousIndexRefMeat.current = newIndex;
@@ -193,7 +217,8 @@ export const Personalize = () => {
                     <img
                       src={item.img}
                       alt={`meat-${index}`}
-                      className="max-w-full max-h-full object-contain"
+                      style={{ maxWidth: `${ingredientSize - 10}px` }}
+                      className=" max-h-full object-contain"
                     />
                   </div>
                 </SwiperSlide>
@@ -267,81 +292,120 @@ export const Personalize = () => {
 
           <div className="absolute top-1/2 right-4 transform -translate-y-1/2 flex flex-col items-end space-y-6">
             {/* Lechuga */}
-            <button
-              onClick={() => toggleIngredient("lettuce")}
-              className={`w-24 h-24 rounded-full border-2 ${
-                isLettuceOrTomatoActive("lettuce")
-                  ? "border-black/20 bg-gray-300"
-                  : "border-black/20 bg-white"
-              } flex items-center justify-center shadow-md`}
-              disabled={ingredients.lettuce === 1}
-            >
-              <img
-                src="src/assets/Personalize/lettuce.svg"
-                alt="Lettuce"
-                className="w-16 h-16"
-              />
-            </button>
+            <div className="flex items-center space-x-2">
+              {ingredients.lettuce > 1 && (
+                <span className="text-sm font-medium">Label</span>
+              )}
+              <button
+                onClick={() => toggleIngredient("lettuce")}
+                className={`w-24 h-24 rounded-full border-2 ${
+                  isLettuceOrTomatoActive("lettuce")
+                    ? "border-black/20 bg-gray-300"
+                    : "border-black/20 bg-white"
+                } flex items-center justify-center shadow-md`}
+                disabled={ingredients.lettuce === 1}
+              >
+                <img
+                  src="src/assets/Personalize/lettuce.svg"
+                  alt="Lettuce"
+                  className="w-16 h-16"
+                />
+              </button>
+            </div>
 
             {/* Tomate */}
-            <button
-              onClick={() => toggleIngredient("tomato")}
-              className={`w-24 h-24 rounded-full border-2 ${
-                isLettuceOrTomatoActive("tomato")
-                  ? "border-black/20 bg-gray-300"
-                  : "border-black/20 bg-white"
-              } flex items-center justify-center shadow-md`}
-              disabled={ingredients.tomato === 1}
-            >
-              <img
-                src="src/assets/Personalize/tomato.svg"
-                alt="Tomato"
-                className="w-16 h-16"
-              />
-            </button>
+            <div className="flex items-center space-x-2">
+              {ingredients.tomato > 1 && (
+                <span className="text-sm font-medium">Label</span>
+              )}
+              <button
+                onClick={() => toggleIngredient("tomato")}
+                className={`w-24 h-24 rounded-full border-2 ${
+                  isLettuceOrTomatoActive("tomato")
+                    ? "border-black/20 bg-gray-300"
+                    : "border-black/20 bg-white"
+                } flex items-center justify-center shadow-md`}
+                disabled={ingredients.tomato === 1}
+              >
+                <img
+                  src="src/assets/Personalize/tomato.svg"
+                  alt="Tomato"
+                  className="w-16 h-16"
+                />
+              </button>
+            </div>
 
             {/* Carne */}
-            <button
-              onClick={() => toggleIngredient("meat")}
-              className={`w-24 h-24 rounded-full border-2 ${
-                isMeatOrCheeseActive("meat")
-                  ? "border-black/20 bg-white"
-                  : "border-black/20 bg-gray-300"
-              } flex items-center justify-center shadow-md`}
-              disabled={ingredients.meat >= 3}
-            >
-              <img
-                src="src/assets/Personalize/meat.svg"
-                alt="Meat"
-                className="w-16 h-16"
-              />
-            </button>
+            <div className="flex items-center space-x-2">
+              {ingredients.meat > 1 && (
+                <span className="text-sm font-medium">+{meatPrice}</span>
+              )}
+              <button
+                onClick={() => {
+                  toggleIngredient("meat");
+                  meatSwiperRef.current?.slideNext();
+                }}
+                className={`w-24 h-24 rounded-full border-2 ${
+                  isMeatOrCheeseActive("meat")
+                    ? "border-black/20 bg-white"
+                    : "border-black/20 bg-gray-300"
+                } flex items-center justify-center shadow-md`}
+                disabled={ingredients.meat >= 3}
+              >
+                <img
+                  src="src/assets/Personalize/meat.svg"
+                  alt="Meat"
+                  className="w-16 h-16"
+                />
+              </button>
+            </div>
 
             {/* Queso */}
-            <button
-              onClick={() => toggleIngredient("cheese")}
-              className={`w-24 h-24 rounded-full border-2 ${
-                isMeatOrCheeseActive("cheese")
-                  ? "border-black/20 bg-white"
-                  : "border-black/20 bg-gray-300"
-              } flex items-center justify-center shadow-md`}
-              disabled={ingredients.cheese >= 3}
-            >
-              <img
-                src="src/assets/Personalize/cheese.svg"
-                alt="Cheese"
-                className="w-16 h-16"
-              />
-            </button>
+            <div className="flex items-center space-x-2">
+              {ingredients.cheese > 1 && (
+                <span className="text-sm font-medium">
+                  +{cheesePrice.toFixed(2)}
+                </span>
+              )}
+              <button
+                onClick={() => {
+                  toggleIngredient("cheese");
+                  cheeseSwiperRef.current?.slideNext();
+                }}
+                className={`w-24 h-24 rounded-full border-2 ${
+                  isMeatOrCheeseActive("cheese")
+                    ? "border-black/20 bg-white"
+                    : "border-black/20 bg-gray-300"
+                } flex items-center justify-center shadow-md`}
+                disabled={ingredients.cheese >= 3}
+              >
+                <img
+                  src="src/assets/Personalize/cheese.svg"
+                  alt="Cheese"
+                  className="w-16 h-16"
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-14 p-4">
-        <div className="text-xl font-bold mb-4 text-center">$5.99</div>
+      <div className="mt-8 p-4">
+        <div className="text-xl font-bold mb-4 text-center">
+          ${burgerObject?.price}
+        </div>
         <button
           className="py-3 px-6 bg-yellow-400 rounded-[10px] font-semibold hover:bg-yellow-500 transition-colors mx-auto block"
-          onClick={() => navigate(RoutesEnum.MAIN)}
+          onClick={() => {
+            addToCart({
+              id: burgerObject?.id?.toString() ?? "0",
+              name: burgerObject?.title ?? "",
+              price: burgerObject?.price ?? 0,
+              quantity: 1,
+              image: burgerObject?.img ?? "",
+            });
+            navigate("/main");
+          }}
         >
           {t("Add to cart")}
         </button>
