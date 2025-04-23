@@ -6,12 +6,14 @@ import { Burger } from "../components/Burger";
 import { Personalize } from "../components/Personalize";
 import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
+import { OrderType } from "../components/OrderType";
 import AvatarApp from "../components/AvatarApp";
 
 export const Routes = () => {
   return (
     <RoutesFromRouter>
       <Route path={RoutesEnum.HOME} element={<HomePage />} />
+      <Route path={RoutesEnum.TYPE} element={<OrderType />} />
       <Route
         path={RoutesEnum.MAIN}
         element={

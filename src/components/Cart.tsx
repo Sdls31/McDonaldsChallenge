@@ -94,14 +94,17 @@ export const Cart: React.FC<CartProps> = ({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => updateQuantity(item.id, -1)}
-                    className="bg-gray-200 px-2 py-1 rounded"
+                    className="px-2 py-1 border border-gray-300 rounded"
+
+
+                    
                   >
                     <Minus className="w-4 h-4" />
                   </button>
                   <span className="w-4 text-center">{item.quantity}</span>
                   <button
                     onClick={() => updateQuantity(item.id, 1)}
-                    className="bg-gray-200 px-2 py-1 rounded"
+                    className="bg-[var(--yellow-mcdonalds)] px-2 py-1 rounded"
                   >
                     <Plus className="w-4 h-4" />
                   </button>

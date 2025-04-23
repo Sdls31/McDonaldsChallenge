@@ -8,7 +8,7 @@ export const HomePage = () => {
   return (
     <div
       className="w-full h-screen flex justify-between min-h-[1180px]"
-      onClick={() => navigate("/main")}
+      onClick={() => navigate("/type")}
     >
       <img src="src/assets/Promotion.png" className="w-full z-0" />
       <img
