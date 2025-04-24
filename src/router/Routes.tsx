@@ -9,6 +9,7 @@ import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
 import { FriesProcess } from "../components/FriesPage";
 import { AvatarApp } from "../components/AvatarApp";
+
 export const Routes = () => {
   return (
     <RoutesFromRouter>
