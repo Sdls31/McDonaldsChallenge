@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AvatarApp } from "../components/AvatarApp";
+import { DialogBox } from "../components/DialogBox";
 
 interface GridMenuProps {
   onTitleChange: (title: string) => void;
@@ -22,13 +23,14 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
   const items = menu[menuKey] ?? [];
 
   const avatarPosition = {
-    top: "900px",
-    left: "50px",
+    top: "1100px",
+    left: "55px",
   };
 
   return (
     <>
       <AvatarApp position={avatarPosition} />
+      <DialogBox text="What's my McChoice Today?" side="left" />
       <div className="max-h-[800px] overflow-hidden grid grid-cols-5 grid-rows-5 gap-2">
         <div className="row-span-5 relative z-20 flex items-center justify-content">
           <div className="relative h-[25rem] w-full overflow-hidden">

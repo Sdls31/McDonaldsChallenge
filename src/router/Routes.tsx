@@ -8,7 +8,6 @@ import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
 import { FriesProcess } from "../components/FriesPage";
-import { AvatarApp } from "../components/AvatarApp";
 export const Routes = () => {
   return (
     <RoutesFromRouter>
@@ -54,7 +53,6 @@ export const Routes = () => {
           </CartProvider>
         }
       />
-      <Route path={RoutesEnum.AVATAR} element={<AvatarApp />} />
     </RoutesFromRouter>
   );
 };
