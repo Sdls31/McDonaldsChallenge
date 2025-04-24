@@ -12,7 +12,6 @@ import { Checkout } from "../components/Checkout";
 import { Qr } from "../components/Qr";
 import { AvatarApp } from "../components/AvatarApp";
 
-
 export const Routes = () => {
   return (
     <RoutesFromRouter>
@@ -60,7 +59,6 @@ export const Routes = () => {
           </CartProvider>
         }
       />
-      <Route path={RoutesEnum.AVATAR} element={<AvatarApp />} />
     </RoutesFromRouter>
   );
 };

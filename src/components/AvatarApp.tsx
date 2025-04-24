@@ -11,7 +11,7 @@ interface Features {
   audifonos: number;
   lentes: number;
   lentes_sol: number;
-  "color de piel": "morena" | "clara";
+  "color de piel": "moreno-alto" | "moreno-bajo" | "clara";
   cabello_corto: number;
   cabello_largo: number;
   cabello_rizado: number;
@@ -21,15 +21,18 @@ interface Features {
   cabello_castaño?: boolean;
 }
 
-export interface PositionProps {
+interface PositionsType {
   top?: string;
   left?: string;
   right?: string;
   bottom?: string;
-  transform?: string;
 }
 
-export const AvatarApp = ({ position }: { position?: PositionProps }) => {
+interface AvatarAppProps {
+  position: PositionsType;
+}
+
+export function AvatarApp({ position }: AvatarAppProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const snapshotRef = useRef<HTMLCanvasElement>(null);
 
@@ -38,7 +41,10 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
   const [handAngle, setHandAngle] = useState(0);
   const [blink, setBlink] = useState(false);
   const [talk, setTalk] = useState(false);
+  // Ajusta este valor para cambiar el tamaño general del avatar
+  const avatarScale = 0.5;
 
+  // Toma la foto y envía al API
   async function analyzeImage() {
     const canvas = snapshotRef.current;
     const video = videoRef.current;
@@ -220,11 +226,7 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
   };
   const src = {
     head: features
-      ? `/mold-head/${
-          features["color de piel"] === "morena"
-            ? "head-little-brown"
-            : "head-white"
-        }.png`
+      ? `/mold-head/${headMap[features["color de piel"]] || "head-white.png"}`
       : "",
     blink: features
       ? `/mold-head/${
@@ -232,9 +234,7 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
         }`
       : "",
     talk: features
-      ? `/mold-head/talk-${
-          features["color de piel"] === "morena" ? "little-brown" : "white"
-        }.png`
+      ? `/mold-head/${talkMap[features["color de piel"]] || "talk-white.png"}`
       : "",
     chest: features
       ? `/chest/${
@@ -242,11 +242,7 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
         }`
       : "",
     arm: features
-      ? `/mold-head/${
-          features["color de piel"] === "morena"
-            ? "little-brown-hand"
-            : "white-hand"
-        }.png`
+      ? `/chest/${handMap[features["color de piel"]] || "black-hand.png"}`
       : "",
     extras: features?.gorra_deportiva
       ? "/mold-head/black-cap.png"
@@ -256,67 +252,60 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
     hair:
       features && !features.gorra_deportiva
         ? features.cabello_rizado
-          ? "/mold-head/short curly hair.png"
-          : features.cabello_corto
-          ? "/mold-head/short hair.png"
+          ? "/mold-head/short-curly-hair.png"
           : features.cabello_largo
-          ? `/mold-head/${
-              features.cabello_castaño ? "brown-long-hair" : "blond-long-hair"
-            }.png`
-          : `/mold-head/${
-              features.cabello_castaño ? "short hair" : "blond-medium-hair"
-            }.png`
+          ? "/mold-head/men-long-hair.png"
+          : features.cabello_corto
+          ? "/mold-head/normal-men-hair-corto.png"
+          : ""
         : "",
     beard: features?.barba_completa_corta
-
-      ? (features["color de piel"] === "moreno-alto" || features["color de piel"] === "oscura"
-          ? "/mold-head/black-beard.png"
-          : "/mold-head/short-beard.png")
-
+      ? features["color de piel"] === "moreno-alto" ||
+        features["color de piel"] === "oscura"
+        ? "/mold-head/black-beard.png"
+        : "/mold-head/short-beard.png"
       : features?.bigote
-        ? "/mold-head/mustache.png"
-        : "",
+      ? "/mold-head/mustache.png"
+      : "",
     glasses: features?.lentes
-      ? "/mold-head/frame-black-glasses.png"
+      ? "/mold-head/frame black glasses.png"
       : features?.lentes_sol
       ? "/mold-head/sunglasses.png"
       : "",
   };
 
+  useEffect(() => {
+    analyzeImage().catch(console.error);
+  }, []);
+
   return (
-    <div className="flex flex-col items-center">
+    <div
+      className="flex flex-col items-center"
+      style={{
+        transform: `scale(${avatarScale})`,
+        transformOrigin: "top left",
+      }}
+    >
       <video ref={videoRef} className="hidden" autoPlay playsInline />
       <canvas ref={snapshotRef} width={320} height={240} className="hidden" />
-      {/* {!features && (
-        <button
-          onClick={() => analyzeImage().catch(console.error)}
-          className="mt-8 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Crear Avatar
-        </button>
-      )} */}
       {features && (
         <div
-          className="absolute w-[320px] h-[240px] z-60"
-          style={{
-            top: position?.top,
-            left: position?.left,
-            right: position?.right,
-            bottom: position?.bottom,
-            transform: position?.transform,
-          }}
+          className="absolute w-[320px] h-[240px] mt-4 z-60"
+          style={{ top: position.top, left: position.left }}
         >
           <img
             src={src.chest}
             className="absolute left-0 right-0"
             alt="chest"
             style={{ top: "75%", width: "100%", height: "auto", zIndex: 0 }}
-            onError={() => console.error("Error loading chest image:", src.chest)}
+            onError={() =>
+              console.error("Error loading chest image:", src.chest)
+            }
           />
           <img
             src={src.arm}
             className="absolute inset-x-0 w-full h-full z-20"
-            style={{ top: "60px", bottom: "auto" }}
+            style={{ top: "60px", bottom: "auto", left: "30px" }}
             alt=""
           />
           <div
@@ -328,32 +317,16 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
               className="absolute inset-0 w-full h-full"
               alt=""
             />
-            <img
-              src={src.chest}
-              className="absolute inset-0 w-full h-full"
-              alt=""
-              style={{ top: "65%" }}
-            />
-            <div
-              className="absolute inset-0 origin-center"
-              style={{ transform: `rotate(${handAngle}deg)`, zIndex: 2 }}
-            >
+            {src.hair && (
               <img
-                src={src.arm}
-                className="absolute inset-0 w-full h-full"
-                alt=""
-              />
-            </div>
-            {src.extras && (
-              <img
-                src={src.extras}
+                src={src.hair}
                 className="absolute inset-0 w-full h-full"
                 alt=""
               />
             )}
-            {src.hair && (
+            {src.extras && (
               <img
-                src={src.hair}
+                src={src.extras}
                 className="absolute inset-0 w-full h-full"
                 alt=""
               />
@@ -391,4 +364,6 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
       )}
     </div>
   );
-};
+}
+
+export default AvatarApp;
