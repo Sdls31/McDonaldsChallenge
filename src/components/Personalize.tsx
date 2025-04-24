@@ -32,8 +32,6 @@ export const Personalize = () => {
 
   const [meatPrice, setMeatPrice] = useState<number>(0);
   const [cheesePrice, setCheesePrice] = useState<number>(0);
-  const basePrice = burgerObject?.price ?? 0;
-  const totalPrice = (basePrice + meatPrice + cheesePrice).toFixed(2);
 
   const prices = {
     meat: 1.99,
@@ -151,17 +149,17 @@ export const Personalize = () => {
                 const prevIndex = previousIndexRefCheese.current;
 
                 if (newIndex > prevIndex) {
-                  setIngredients((prev) => ({
-                    ...prev,
-                    cheese: prev.cheese + 1,
-                  }));
-                  setCheesePrice((prev) => prev + prices.cheese);
+                  setIngredients({
+                    ...ingredients,
+                    cheese: ingredients.cheese + 1,
+                  });
+                  setCheesePrice(cheesePrice + prices.cheese);
                 } else if (newIndex < prevIndex) {
-                  setIngredients((prev) => ({
-                    ...prev,
-                    cheese: prev.cheese - 1,
-                  }));
-                  setCheesePrice((prev) => prev - prices.cheese);
+                  setIngredients({
+                    ...ingredients,
+                    cheese: ingredients.cheese - 1,
+                  });
+                  setCheesePrice(cheesePrice - prices.cheese);
                 }
                 
 
@@ -198,17 +196,17 @@ export const Personalize = () => {
                 const prevIndex = previousIndexRefMeat.current;
 
                 if (newIndex > prevIndex) {
-                  setIngredients((prev) => ({
-                    ...prev,
-                    meat: prev.meat + 1,
-                  }));
-                  setMeatPrice((prev) => prev + prices.meat);
+                  setIngredients({
+                    ...ingredients,
+                    meat: ingredients.meat + 1,
+                  });
+                  setMeatPrice(meatPrice + prices.meat);
                 } else if (newIndex < prevIndex) {
-                  setIngredients((prev) => ({
-                    ...prev,
-                    meat: prev.meat - 1,
-                  }));
-                  setMeatPrice((prev) => prev - prices.meat);
+                  setIngredients({
+                    ...ingredients,
+                    meat: ingredients.meat - 1,
+                  });
+                  setMeatPrice(meatPrice - prices.meat);
                 }
                 previousIndexRefMeat.current = newIndex;
               }}
@@ -400,10 +398,9 @@ export const Personalize = () => {
       </div>
 
       <div className="mt-8 p-4">
-      <div className="text-xl font-bold mb-4 text-center">
-        ${totalPrice}
-      </div>
-
+        <div className="text-xl font-bold mb-4 text-center">
+          ${burgerObject?.price}
+        </div>
         <button
           className="py-3 px-6 bg-yellow-400 rounded-[10px] font-semibold hover:bg-yellow-500 transition-colors mx-auto block"
           onClick={() => {
@@ -417,7 +414,7 @@ export const Personalize = () => {
             navigate("/main");
           }}
         >
-          {t("Add to cart")}
+          {t("add_to_cart")}
         </button>
       </div>
     </div>

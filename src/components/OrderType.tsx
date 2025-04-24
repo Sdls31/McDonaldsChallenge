@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 export const OrderType: React.FC = () => {
     const [selectedOption, setSelectedOption] = useState<'eat-in' | 'take-away' | null>(null);
+    const { t } = useTranslation();
     const navigate = useNavigate();
   
     useEffect(() => {
@@ -70,7 +72,7 @@ export const OrderType: React.FC = () => {
               alt="Eat In"
               className="w-60 h-60 object-contain mx-auto"
             />
-            <span className="text-2xl font-medium mt-2">Eat in</span>
+            <span className="text-2xl font-medium mt-2">{t("Eat in")}</span>
           </div>
 
           <div className={getButtonClasses('take-away')} onClick={handleTakeAwayClick}>
@@ -79,7 +81,7 @@ export const OrderType: React.FC = () => {
               alt="Take Away"
               className="w-60 h-60 object-contain mx-auto"
             />
-            <span className="text-2xl font-medium mt-2">Take away</span>
+            <span className="text-2xl font-medium mt-2">{t("Take away")}</span>
           </div>
         </div>
       </div>

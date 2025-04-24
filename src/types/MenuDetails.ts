@@ -318,7 +318,7 @@ export const menu: MenuDetails = {
     },
     {
       id: 4,
-      title: "Fanta Naranja",
+      title: "Fanta",
       img: "src/assets/Soda.png",
       price: 1.69,
     },
