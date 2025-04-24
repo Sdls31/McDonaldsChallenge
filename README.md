@@ -1,54 +1,47 @@
-# React + TypeScript + Vite
+# The Encounter with Yourself
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**The Encounter with Yourself** is a digital platform designed to solve emotional disconnection, lack of inclusion, and the absence of interactive guidance. Through a memorable experience, it transforms the process of self-reflection into something engaging and shareable, fostering emotional connection and user loyalty.
 
-Currently, two official plugins are available:
+Guided by a personalized avatar, users engage in interactive self-reflection exercises aimed at increasing emotional awareness and personal growth. This platform uses user-centered design and psychological principles to make the experience meaningful and impactful.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview
 
-## Expanding the ESLint configuration
+The platform features a guided experience led by a personalized avatar, designed based on the user’s characteristics. This avatar serves both as a guide and a functional tool for navigating self-reflection exercises. Additionally, it includes unique functionalities that enhance the user experience, making it more engaging and memorable. These features are designed to create a deeper connection with the user, providing a more interactive and dynamic path to self-discovery and emotional growth.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Key Features
+- **Personalized Avatar**: Tailored to the user's characteristics.
+- **Interactive Self-Reflection**: Guided exercises to explore thoughts, emotions, and behaviors.
+- **Emotional Awareness**: Tools designed to enhance emotional intelligence.
+- **User-Centered Design**: Simple, intuitive interface.
+- **Impactful Experience**: Designed to create lasting emotional engagement.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Technologies Used
+- **React**: For building the user interface with a component-based architecture.
+- **TypeScript**: To provide static typing and enhance code quality and maintainability.
+- **Tailwind CSS**: For utility-first CSS styling, allowing for fast and responsive design implementation.
+- **MediaPipe**: For real-time machine learning models, enabling features like face detection and pose estimation.
+- **GSAP**: For creating smooth and interactive animations, enhancing the overall user experience with dynamic visual effects.
+
+## Installation
+### 1. Clone the repository to your local machine
+
+```bash
+git clone https://github.com/Sdls31/McDonaldsChallenge.git
+```
+### 2. Navigate to the project directory
+```bash
+cd McDonaldsChallenge
+```
+To install dependencies:
+
+```bash
+    npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+To run project in development enviroment:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+    npm run dev
 ```
+
+
