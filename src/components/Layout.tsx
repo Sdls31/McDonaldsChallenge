@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Slider from "./Slider";
+import { useTranslation } from "react-i18next";
 
 interface WrapperProps {
   Component?: React.ReactNode;
@@ -13,7 +14,7 @@ export const Layout: React.FC<WrapperProps> = ({
   BackStep,
 }) => {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   return (
     <div className="h-[1000px] max-h-[1180px]">
       <div className="min-w-[820px] min-h-[30%] relative overflow-hidden">
@@ -29,10 +30,9 @@ export const Layout: React.FC<WrapperProps> = ({
           >
             <img src="src/assets/Vector.svg" alt="Botón" className="w-6 h-6" />
           </button>
-
-          <div className="w-80 bg-[var(--yellow-mcdonalds)] rounded-bl-2xl py-2">
-            <p className="font-[var(--font-global)] text-[25px] pl-4 pr-4 font-bold leading-tight whitespace-normal break-words">
-              {Title ? Title : "Menu"}
+          <div className="w-80 bg-(--yellow-mcdonalds) rounded-bl-2xl">
+            <p className="font-[var(--font-global)] text-[25px] pl-[1rem] font-bold leading-tight whitespace-normal break-words">
+              {Title ? t(Title) : t("menu")}
             </p>
           </div>
         </div>
