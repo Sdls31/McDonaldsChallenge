@@ -7,7 +7,7 @@ import { Personalize } from "../components/Personalize";
 import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
-import AvatarApp from "../components/AvatarApp";
+import { AvatarApp } from "../components/AvatarApp";
 
 export const Routes = () => {
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaceMesh, Results as FaceMeshResults } from "@mediapipe/face_mesh";
 import { Hands, Results as HandsResults } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
@@ -21,7 +21,15 @@ interface Features {
   cabello_castaño?: boolean;
 }
 
-export default function AvatarApp() {
+export interface PositionProps {
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
+  transform?: string;
+}
+
+export const AvatarApp = ({ position }: { position?: PositionProps }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const snapshotRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,7 +39,6 @@ export default function AvatarApp() {
   const [blink, setBlink] = useState(false);
   const [talk, setTalk] = useState(false);
 
-  // Toma la foto y envía al API
   async function analyzeImage() {
     const canvas = snapshotRef.current;
     const video = videoRef.current;
@@ -55,14 +62,20 @@ export default function AvatarApp() {
         messages: [
           {
             role: "system",
-            content: [{ type: "text", text: "Eres un asistente..." }],
+            content: [
+              {
+                type: "text",
+                text: "Eres un asistente que al analizar imágenes de personas responde siempre con un diccionario JSON con las claves especificadas, sin texto adicional ni disculpas.",
+              },
+            ],
           },
           {
             role: "user",
             content: [
               {
                 type: "text",
-                text: `Analiza la imagen y responde exclusivamente con un diccionario JSON:{"sexo":"M/F","gorra_deportiva":0,"gorro_frio":0,"gorra_mcdonalds":0,"audifonos":0,"lentes":0,"lentes_sol":0,"color de piel":"morena/clara","cabello_corto":1,"cabello_largo":0,"cabello_rizado":0,"bigote":0,"barba_completa_corta":0,"color_playera":"beige/black/green/ocean/pink/purple/red/sky/white/yellow"}`,
+                text: `Analiza la imagen y responde exclusivamente con un diccionario JSON:
+{"sexo":"M/F","gorra_deportiva":0,"gorra_frio":0,"gorra_mcdonalds":0,"audifonos":0,"lentes":0,"lentes_sol":0,"color de piel":"oscura/morena/clara","cabello_corto":1,"cabello_largo":0,"cabello_rizado":0,"bigote":0,"barba_completa_corta":0,"color_playera":"beige/black/green/ocean/pink/purple/red/sky/white/yellow"}`,
               },
               {
                 type: "image_url",
@@ -163,6 +176,48 @@ export default function AvatarApp() {
     setHandAngle(raw);
   }
 
+  // Mapeo explícito de filenames para cada color de playera
+  const chestMap: Record<string, string> = {
+    black: "black-shirt.png",
+    green: "green-shirt.png",
+    sky: "sky-shirt.png",
+    beige: "beige-tshirt.png",
+    ocean: "ocean-tshirt.png",
+    pink: "pink-tshirt.png",
+    purple: "purple-tshirt.png",
+    red: "red-tshirt.png",
+    white: "white-tshirt.png",
+    yellow: "yellow-tshirt.png",
+  };
+  // Mapeos según tono de piel (incluyendo alias "morena" y "oscura")
+  const headMap: Record<string, string> = {
+    "moreno-alto": "head-black.png",
+    oscura: "head-black.png",
+    "moreno-bajo": "head-little-brown.png",
+    morena: "head-little-brown.png",
+    clara: "head-white.png",
+  };
+  const blinkMap: Record<string, string> = {
+    "moreno-alto": "blink-black.png",
+    oscura: "blink-black.png",
+    "moreno-bajo": "blink-little-brown.png",
+    morena: "blink-little-brown.png",
+    clara: "blink-head-white.png",
+  };
+  const talkMap: Record<string, string> = {
+    "moreno-alto": "talk-black.png",
+    oscura: "talk-black.png",
+    "moreno-bajo": "talk-little-brown.png",
+    morena: "talk-little-brown.png",
+    clara: "talk-white.png",
+  };
+  const handMap: Record<string, string> = {
+    "moreno-alto": "black-hand.png",
+    oscura: "black-hand.png",
+    "moreno-bajo": "little-brown-hand.png",
+    morena: "little-brown-hand.png",
+    clara: "white-hand.png",
+  };
   const src = {
     head: features
       ? `/mold-head/${
@@ -172,9 +227,9 @@ export default function AvatarApp() {
         }.png`
       : "",
     blink: features
-      ? `/mold-head/blink-${
-          features["color de piel"] === "morena" ? "little-brown" : "head"
-        }.png`
+      ? `/mold-head/${
+          blinkMap[features["color de piel"]] || "blink-head-white.png"
+        }`
       : "",
     talk: features
       ? `/mold-head/talk-${
@@ -182,13 +237,9 @@ export default function AvatarApp() {
         }.png`
       : "",
     chest: features
-      ? `/mold-head/${features.color_playera.toLowerCase()}${
-          ["black", "green", "sky"].includes(
-            features.color_playera.toLowerCase()
-          )
-            ? "-shirt"
-            : "-tshirt"
-        }.png`
+      ? `/chest/${
+          chestMap[features.color_playera.toLowerCase()] || "white-tshirt.png"
+        }`
       : "",
     arm: features
       ? `/mold-head/${
@@ -205,13 +256,15 @@ export default function AvatarApp() {
     hair:
       features && !features.gorra_deportiva
         ? features.cabello_rizado
-          ? "/mold-head/short-curly-hair.png"
+          ? "/mold-head/short curly hair.png"
+          : features.cabello_corto
+          ? "/mold-head/short hair.png"
           : features.cabello_largo
           ? `/mold-head/${
               features.cabello_castaño ? "brown-long-hair" : "blond-long-hair"
             }.png`
           : `/mold-head/${
-              features.cabello_castaño ? "short-hair" : "blond-medium-hair"
+              features.cabello_castaño ? "short hair" : "blond-medium-hair"
             }.png`
         : "",
     beard: features?.barba_completa_corta
@@ -239,7 +292,28 @@ export default function AvatarApp() {
         </button>
       )}
       {features && (
-        <div className="relative w-[320px] h-[240px] mt-4">
+        <div
+          className="absolute w-[320px] h-[240px] z-60"
+          style={{
+            top: position?.top,
+            left: position?.left,
+            right: position?.right,
+            bottom: position?.bottom,
+            transform: position?.transform,
+          }}
+        >
+          <img
+            src={src.chest}
+            className="absolute inset-0 w-full h-full"
+            alt=""
+            style={{ top: "calc(65% + 1cm)" }}
+          />
+          <img
+            src={src.arm}
+            className="absolute inset-x-0 w-full h-full z-20"
+            style={{ top: "20px", bottom: "auto" }}
+            alt=""
+          />
           <div
             className="absolute inset-0 origin-bottom-center"
             style={{ transform: `rotate(${headAngle}deg)` }}
@@ -312,4 +386,4 @@ export default function AvatarApp() {
       )}
     </div>
   );
-}
+};
