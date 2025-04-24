@@ -15,6 +15,10 @@ interface CartContextType {
   addToCart: (item: CartItem) => void;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   removeFromCart: (id: string) => void;
+  usedImages: Record<string, string | null>; // ✅ corrección aquí
+  setUsedImages: React.Dispatch<
+    React.SetStateAction<Record<string, string | null>>
+  >;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(
@@ -25,6 +29,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [usedImages, setUsedImages] = useState<Record<string, string | null>>(
+    {}
+  );
 
   const addToCart = (item: CartItem) => {
     setCartItems((prev) => {
@@ -71,7 +78,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, setCartItems, removeFromCart }}
+      value={{
+        cartItems,
+        addToCart,
+        setCartItems,
+        removeFromCart,
+        setUsedImages,
+        usedImages,
+      }}
     >
       {children}
       <Cart

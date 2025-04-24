@@ -11,55 +11,80 @@ import { FriesProcess } from "../components/FriesPage";
 import { HappyMealPage } from "../components/HappyMealPage";
 import { Checkout } from "../components/Checkout";
 import { Qr } from "../components/Qr";
+import { AvatarApp } from "../components/AvatarApp";
+import { AvatarProvider } from "../context/AvatarContext";
 import SwipeAnimation from "../components/SwipeAnimation";
-
 
 export const Routes = () => {
   return (
     <RoutesFromRouter>
       <Route path={RoutesEnum.HOME} element={<HomePage />} />
-      <Route path={RoutesEnum.TYPE} element={<OrderType />} />
-      <Route path={RoutesEnum.CHECKOUT} element={<Checkout />} />
+      <Route
+        path={RoutesEnum.TYPE}
+        element={
+          <AvatarProvider>
+            <OrderType />
+          </AvatarProvider>
+        }
+      />
+      <Route
+        path={RoutesEnum.CHECKOUT}
+        element={
+          <AvatarProvider>
+            <Checkout />
+          </AvatarProvider>
+        }
+      />
       <Route path={RoutesEnum.QR} element={<Qr />} />
       <Route path={RoutesEnum.DEDO} element={< SwipeAnimation/>} />
       <Route
         path={RoutesEnum.MAIN}
         element={
-          <CartProvider>
-            <Menu />
-          </CartProvider>
+          <AvatarProvider>
+            <CartProvider>
+              <Menu />
+            </CartProvider>
+          </AvatarProvider>
         }
       />
       <Route
         path={RoutesEnum.BURGERS}
         element={
-          <CartProvider>
-            <Burger />
-          </CartProvider>
+          <AvatarProvider>
+            <CartProvider>
+              <Burger />
+            </CartProvider>
+          </AvatarProvider>
         }
       />
       <Route
         path={RoutesEnum.PERSONALIZE}
         element={
-          <CartProvider>
-            <Personalize />
-          </CartProvider>
+          <AvatarProvider>
+            <CartProvider>
+              <Personalize />
+            </CartProvider>
+          </AvatarProvider>
         }
       />
       <Route
         path={RoutesEnum.NUGGETS}
         element={
-          <CartProvider>
-            <NuggetsProcess />
-          </CartProvider>
+          <AvatarProvider>
+            <CartProvider>
+              <NuggetsProcess />
+            </CartProvider>
+          </AvatarProvider>
         }
       />
       <Route
         path={RoutesEnum.FRIES}
         element={
-          <CartProvider>
-            <FriesProcess />
-          </CartProvider>
+          <AvatarProvider>
+            <CartProvider>
+              <FriesProcess />
+            </CartProvider>
+          </AvatarProvider>
         }
       />
       <Route

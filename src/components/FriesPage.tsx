@@ -3,15 +3,15 @@ import { gsap } from "gsap";
 import { RoutesEnum } from "../router/RoutesEnum";
 import { Layout } from "./Layout";
 import { HiPlus, HiMinus } from "react-icons/hi";
+import AvatarApp from "./AvatarApp";
+import { DialogBox } from "./DialogBox";
 import { useCart } from "../context/CartContext";
 
-
-const PRICE_PER_FRY = 0.20;
+const PRICE_PER_FRY = 0.2;
 const SIZES = ["S", "M", "L"];
 const COUNTS = [30, 40, 50];
 
 const FriesPage = () => {
-
   // const [selected, setSelected] = useState("fries");
   const [sizeIndex, setSizeIndex] = useState(0);
   const [orderCount, setOrderCount] = useState(1);
@@ -23,41 +23,36 @@ const FriesPage = () => {
   const fryStaticRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart(); // añade esto dentro de FriesPage
 
-
   const totalFries = COUNTS[sizeIndex] * orderCount;
   const price = (totalFries * PRICE_PER_FRY).toFixed(2);
 
-
   const handleIncrement = () => {
     if (sizeIndex >= SIZES.length - 1) return;
-  
+
     const newIndex = sizeIndex + 1;
     const newCount = COUNTS[newIndex];
-  
+
     const totalFalling = Array.from({ length: newCount }, (_, i) => i); // ✅ Genera todos
     setFallingFries(totalFalling);
     setSizeIndex(newIndex);
     animateBoxSize(newIndex);
-  
+
     setTimeout(() => setFallingFries([]), 3000);
   };
-  
 
   const handleDecrement = () => {
     if (sizeIndex <= 0) return;
-  
+
     const currentSize = SIZES[sizeIndex]; // ⬅️ ejemplo: "L", "M", etc.
     const newIndex = sizeIndex - 1;
-  
+
     const allFries = Array.from(
       fryStaticRef.current?.querySelectorAll("img") || []
     );
-  
+
     // ❗ Solo eliminamos papas que pertenecen al tamaño actual
-    const toRemove = allFries.filter(
-      (fry) => fry.dataset.size === currentSize
-    );
-  
+    const toRemove = allFries.filter((fry) => fry.dataset.size === currentSize);
+
     toRemove.forEach((fry, i) => {
       setTimeout(() => {
         gsap.to(fry, {
@@ -69,17 +64,14 @@ const FriesPage = () => {
         });
       }, i * 80);
     });
-  
+
     setSizeIndex(newIndex);
     animateBoxSize(newIndex);
   };
-  
-  
-  
 
   const animateBoxSize = (index: number) => {
     if (!boxImgRef.current) return;
-  
+
     // Escala más progresiva
     const scaleMap = [1, 1.3, 1.6];
 
@@ -89,7 +81,6 @@ const FriesPage = () => {
       ease: "power1.out",
     });
   };
-  
 
   useEffect(() => {
     if (!initialLoadDone && fryContainerRef.current) {
@@ -98,16 +89,20 @@ const FriesPage = () => {
       setInitialLoadDone(true);
     }
   }, [initialLoadDone]);
-  
 
   useEffect(() => {
-    if (fallingFries.length === 0 || !fryContainerRef.current || !fryStaticRef.current) return;
-  
+    if (
+      fallingFries.length === 0 ||
+      !fryContainerRef.current ||
+      !fryStaticRef.current
+    )
+      return;
+
     const escapeCount = 7;
     const total = fallingFries.length;
     const visibleFries = fallingFries.slice(0, total - escapeCount);
     const escapingFries = fallingFries.slice(total - escapeCount);
-  
+
     const sizeMap = [
       { w: 48, h: 96 },
       { w: 56, h: 112 },
@@ -119,7 +114,7 @@ const FriesPage = () => {
       { min: 120, max: 200 },
     ];
     const finalYPositions = [670, 650, 630];
-  
+
     // 1️⃣ Primero las normales
     visibleFries.forEach((id, i) => {
       setTimeout(() => {
@@ -139,13 +134,12 @@ const FriesPage = () => {
         fry.style.top = `-600px`;
         fry.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
         const fryBehindRef = document.getElementById("fryBehindRef");
-fryBehindRef?.appendChild(fry);
+        fryBehindRef?.appendChild(fry);
 
-  
         const finalY = finalYPositions[sizeIndex];
         const finalXOffset = Math.random() * 30 - 15;
         const finalRotation = Math.random() * 360 - 180;
-  
+
         gsap.to(fry, {
           y: finalY - 10,
           x: finalXOffset,
@@ -160,8 +154,8 @@ fryBehindRef?.appendChild(fry);
               ease: "bounce.out",
               onComplete: () => {
                 if (fry.parentElement) {
-                    fry.parentElement.removeChild(fry);
-                  }
+                  fry.parentElement.removeChild(fry);
+                }
                 fry.style.position = "absolute";
                 fryStaticRef.current?.appendChild(fry);
               },
@@ -170,7 +164,7 @@ fryBehindRef?.appendChild(fry);
         });
       }, i * 80);
     });
-  
+
     // 2️⃣ Luego las escapistas
     escapingFries.forEach((id, i) => {
       const delay = visibleFries.length * 80 + i * 150;
@@ -189,12 +183,12 @@ fryBehindRef?.appendChild(fry);
         fry.style.top = `-650px`;
         fry.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
         fryContainerRef.current?.appendChild(fry);
-  
+
         const finalY = finalYPositions[sizeIndex];
         const finalXOffset = Math.random() * 30 - 15;
         const finalRotation = Math.random() * 360 - 180;
         const escapeDirection = Math.random() < 0.5 ? -1 : 1;
-  
+
         gsap.to(fry, {
           y: finalY,
           x: finalXOffset,
@@ -210,7 +204,7 @@ fryBehindRef?.appendChild(fry);
               onComplete: () => {
                 // 👇 Aquí le subimos el z-index
                 fry.style.zIndex = "100";
-          
+
                 gsap.to(fry, {
                   y: window.innerHeight + 300,
                   x: finalXOffset + escapeDirection * 120,
@@ -221,105 +215,137 @@ fryBehindRef?.appendChild(fry);
                 });
               },
             });
-          }
-          
+          },
         });
       }, delay);
     });
   }, [fallingFries]);
+
+  const avatarPosition = {
+    top: "100px",
+    right: "-55rem",
+  };
+  const positionDialogBox = {
+    top: "27.5rem",
+    right: "7.5rem",
+  };
 
   return (
     <Layout
       Title={`(${SIZES[sizeIndex]}) Fries`}
       BackStep={RoutesEnum.MAIN}
       Component={
-        <div className="min-h-screen flex justify-center bg-white font-poppins pt-12">
-          <div className="w-full max-w-md flex flex-col items-center gap-8 px-6">
-            <div className="w-full max-w-[800px] relative z-10 flex flex-col items-center gap-6 mt-6">
-              <div className="relative w-[480px] h-[440px] flex flex-col items-center justify-center gap-6 mt-16">
-                
-                {/* Caja de papas y botones */}
-                <div
-                  className="relative w-[340px] h-[270px] flex justify-center items-center overflow-visible"
-                  ref={boxRef}
-                >
-                  {/* Botones en capa superior */}
-                  <div className="absolute inset-0 z-50 pointer-events-none">
-                    {/* Botón - */}
-                    <button
-                      onClick={handleDecrement}
-                      disabled={sizeIndex === 0}
-                      className={`absolute left-[-30px] top-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center shadow-lg transition-transform duration-300 hover:scale-110 pointer-events-auto ${
-                        sizeIndex === 0
-                          ? "bg-gray-300 border border-black/10 text-black cursor-not-allowed"
-                          : "bg-white"
-                      }`}
-                    >
-                      <HiMinus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
-                    </button>
-  
-                    {/* Botón + */}
-                    <button
-                      onClick={handleIncrement}
-                      disabled={sizeIndex === SIZES.length - 1}
-                      className={`absolute right-[-30px] top-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center shadow-lg transition-transform duration-300 hover:scale-110 pointer-events-auto ${
-                        sizeIndex === SIZES.length - 1
-                          ? "bg-gray-300 border border-black/10 text-black cursor-not-allowed"
-                          : "bg-white"
-                      }`}
-                    >
-                      <HiPlus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
-                    </button>
-                  </div>
-  
-                  {/* Imagen de la caja */}
-                  <img
-                    ref={boxImgRef}
-                    src="src/assets/MenuFries/FriesBox.svg"
-                    alt="Caja de papas"
-                    className="relative z-[10] w-[260px] object-contain"
-                  />
-  
-                  {/* Papas dinámicas */}
+        <>
+          <AvatarApp position={avatarPosition} />
+          <DialogBox
+            text="I want this Burger?"
+            side="right"
+            positionAvatar={positionDialogBox}
+            size="small"
+          />
+          <div className="min-h-screen flex justify-center bg-white font-poppins pt-12">
+            <div className="w-full max-w-md flex flex-col items-center gap-8 px-6">
+              <div className="w-full max-w-[800px] relative z-10 flex flex-col items-center gap-6 mt-6">
+                <div className="relative w-[480px] h-[440px] flex flex-col items-center justify-center gap-6 mt-16">
+                  {/* Caja de papas y botones */}
                   <div
-                    ref={fryContainerRef}
-                    className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[80] pointer-events-none"
-                  />
-  
-                  {/* Papas estáticas en caja */}
-                  <div
-                    ref={fryStaticRef}
-                    className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[5] pointer-events-none"
-                  />
-  
-                  {/* Papas escapistas */}
-                  <div
-                    id="fryBehindRef"
-                    className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[3] pointer-events-none"
-                  />
-                </div>
-  
-                {/* Controles de orden y precio */}
-                <div className="flex flex-col items-center justify-center gap-4 mt-8">
-                  <div className="flex items-center justify-center gap-8">
-                    <div className="flex items-center rounded-full px-5 py-2 bg-white shadow-sm border border-gray-300 text-lg font-medium">
+                    className="relative w-[340px] h-[270px] flex justify-center items-center overflow-visible"
+                    ref={boxRef}
+                  >
+                    {/* Botones en capa superior */}
+                    <div className="absolute inset-0 z-50 pointer-events-none">
+                      {/* Botón - */}
                       <button
-                        onClick={() => setOrderCount((prev) => Math.max(1, prev - 1))}
-                        className="text-[22px] text-gray-500 font-bold px-3"
+                        onClick={handleDecrement}
+                        disabled={sizeIndex === 0}
+                        className={`absolute left-[-30px] top-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center shadow-lg transition-transform duration-300 hover:scale-110 pointer-events-auto ${
+                          sizeIndex === 0
+                            ? "bg-gray-300 border border-black/10 text-black cursor-not-allowed"
+                            : "bg-white"
+                        }`}
                       >
-                        –
+                        <HiMinus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
                       </button>
-                      <span className="text-black mx-2 text-[18px]">{orderCount}</span>
+
+                      {/* Botón + */}
                       <button
-                        onClick={() => setOrderCount((prev) => prev + 1)}
-                        className="text-[22px] text-[var(--yellow-mcdonalds)] font-bold px-3"
+                        onClick={handleIncrement}
+                        disabled={sizeIndex === SIZES.length - 1}
+                        className={`absolute right-[-30px] top-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center shadow-lg transition-transform duration-300 hover:scale-110 pointer-events-auto ${
+                          sizeIndex === SIZES.length - 1
+                            ? "bg-gray-300 border border-black/10 text-black cursor-not-allowed"
+                            : "bg-white"
+                        }`}
                       >
-                        +
+                        <HiPlus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
                       </button>
                     </div>
-                    <div className="text-[20px] font-bold text-black">${price}</div>
+
+                    {/* Imagen de la caja */}
+                    <img
+                      ref={boxImgRef}
+                      src="src/assets/MenuFries/FriesBox.svg"
+                      alt="Caja de papas"
+                      className="relative z-[10] w-[260px] object-contain"
+                    />
+
+                    {/* Papas dinámicas */}
+                    <div
+                      ref={fryContainerRef}
+                      className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[80] pointer-events-none"
+                    />
+
+                    {/* Papas estáticas en caja */}
+                    <div
+                      ref={fryStaticRef}
+                      className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[5] pointer-events-none"
+                    />
+
+                    {/* Papas escapistas */}
+                    <div
+                      id="fryBehindRef"
+                      className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[3] pointer-events-none"
+                    />
                   </div>
-  
+
+                  {/* Controles de orden y precio */}
+                  <div className="flex flex-col items-center justify-center gap-4 mt-8">
+                    <div className="flex items-center justify-center gap-8">
+                      <div className="flex items-center rounded-full px-5 py-2 bg-white shadow-sm border border-gray-300 text-lg font-medium">
+                        <button
+                          onClick={() =>
+                            setOrderCount((prev) => Math.max(1, prev - 1))
+                          }
+                          className="text-[22px] text-gray-500 font-bold px-3"
+                        >
+                          –
+                        </button>
+                        <span className="text-black mx-2 text-[18px]">
+                          {orderCount}
+                        </span>
+                        <button
+                          onClick={() => setOrderCount((prev) => prev + 1)}
+                          className="text-[22px] text-[var(--yellow-mcdonalds)] font-bold px-3"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <div className="text-[20px] font-bold text-black">
+                        ${price}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        console.log(
+                          `Añadido al carrito: ${totalFries} fries por $${price}`
+                        );
+                      }}
+                      className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
+                    >
+                      Add to cart
+                    </button>
+                  </div>
                   <button
                   onClick={() => {
                     addToCart({
@@ -334,21 +360,16 @@ fryBehindRef?.appendChild(fry);
                 >
                   Add to cart
                 </button>
-
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       }
     />
   );
-  
-  
-  
 };
 
 export const FriesProcess = () => {
   return <FriesPage />;
 };
-

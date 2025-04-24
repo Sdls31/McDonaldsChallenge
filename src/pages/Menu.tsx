@@ -26,11 +26,20 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
     top: "1100px",
     left: "55px",
   };
+  const positionDialogBox = {
+    top: "60rem",
+    left: "15rem",
+  };
 
   return (
     <>
       <AvatarApp position={avatarPosition} />
-      <DialogBox text="What's my McChoice Today?" side="left" />
+      <DialogBox
+        text="Crispy and Golden?"
+        side="left"
+        positionAvatar={positionDialogBox}
+        size="large"
+      />
       <div className="max-h-[800px] overflow-hidden grid grid-cols-5 grid-rows-5 gap-2">
         <div className="row-span-5 relative z-20 flex items-center justify-content">
           <div className="relative h-[25rem] w-full overflow-hidden">
