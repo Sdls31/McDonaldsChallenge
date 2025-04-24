@@ -414,7 +414,7 @@ export const Personalize = () => {
             navigate("/main");
           }}
         >
-          {t("Add to cart")}
+          {t("add_to_cart")}
         </button>
       </div>
     </div>

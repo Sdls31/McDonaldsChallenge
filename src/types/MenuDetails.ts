@@ -16,6 +16,7 @@ interface MenuDetails {
   chicken: MenuItem[];
   combos: MenuItem[];
   beverages: MenuItem[];
+  fries: MenuItem[];
 }
 
 interface VerticalMenuType {
@@ -316,7 +317,7 @@ export const menu: MenuDetails = {
     },
     {
       id: 4,
-      title: "Fanta Naranja",
+      title: "Fanta",
       img: "src/assets/Soda.png",
       price: 1.69,
     },
@@ -351,6 +352,17 @@ export const menu: MenuDetails = {
       price: 1.69,
     },
   ],
+  fries: [
+    {
+      id: 1,
+      title: "Choose your size",
+      img: "src/assets/MenuItems/McFries.svg", // MISMA IMAGEN DEL MENÚ VERTICAL
+      link: RoutesEnum.FRIES,
+      description: "Select the right portion of fries for your craving.",
+    },
+  ],
+  
+  
 };
 
 export const findMenuItemByTitle = (title: string) => {

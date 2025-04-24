@@ -6,13 +6,14 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
-import { AvatarApp } from "../components/AvatarApp";
+import { useTranslation } from "react-i18next";
 
 interface GridMenuProps {
   onTitleChange: (title: string) => void;
 }
 
 const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [selectedAnimation, setSelectedAnimation] = useState<number>(0);
   const currentItem = verticalMenuItems.Items[selectedAnimation];
@@ -63,26 +64,14 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
                         !isActive ? "opacity-60" : "opacity-100"
                       }`}
                     >
-                      <img
-                        src={item.img}
-                        alt={item.title}
-                        className={`transition-all duration-300 ${
-                          isActive ? "w-[65px]" : "w-[55px]"
-                        }`}
-                      />
-                      <p
-                        className={`font-[var(--font-global)] text-center font-semibold text-[#4F4F4F] transition-all duration-300 ${
-                          isActive ? "text-[15px]" : "text-[12px]"
-                        }`}
-                      >
-                        {item.title}
-                      </p>
-                    </div>
-                  )}
-                </SwiperSlide>
-              ))}
-            </Swiper>
 
+                      {t(item.title)}
+                    </p>
+                  </div>
+                )}
+              </SwiperSlide>
+            ))}
+          </Swiper>
             <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
           </div>
         </div>
@@ -100,26 +89,26 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
                           name: item.title,
                         },
                       },
-                    })
-                  }
-                  className="bg-white rounded-md shadow-md flex flex-col items-center justify-center w-full min-w-[10rem]  max-w-[10rem] h-[10rem] overflow-hidden"
-                >
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-16 h-16 object-contain"
-                  />
-                  <p className="text-center mt-2 font-[var(--font-global)] text-[15px] font-bold text-[#4F4F4F] px-2 leading-snug line-clamp-2">
-                    {item.title}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <div className="col-span-3 row-span-3 text-center text-gray-600 font-medium flex items-center justify-center">
-                No hay elementos para mostrar.
+                    },
+                  })
+                }
+                className="bg-white rounded-md shadow-md flex flex-col items-center justify-center w-full min-w-[10rem]  max-w-[10rem] h-[10rem] overflow-hidden"
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="w-16 h-16 object-contain"
+                />
+                <p className="text-center mt-2 font-[var(--font-global)] text-[15px] font-bold text-[#4F4F4F] px-2 leading-snug line-clamp-2">
+                  {t(item.title)}
+                </p>
               </div>
-            )}
-          </div>
+            ))
+          ) : (
+            <div className="col-span-3 row-span-3 text-center text-gray-600 font-medium flex items-center justify-center">
+              {t("No items")}
+            </div>
+          )}
         </div>
         <style>
           {`

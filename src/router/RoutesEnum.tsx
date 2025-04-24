@@ -7,4 +7,5 @@ export enum RoutesEnum {
   CHICKEN = "/chicken",
   NUGGETS = "/nuggets",
   AVATAR = "/avatar",
+  FRIES = "/fries"
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Plus, Minus, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useCart } from "../context/CartContext";
 
 export type CartItem = {
@@ -24,6 +25,7 @@ export const Cart: React.FC<CartProps> = ({
 }) => {
   const [showDetails, setShowDetails] = useState(false);
   const { removeFromCart, addToCart } = useCart();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -34,12 +36,12 @@ export const Cart: React.FC<CartProps> = ({
       >
         <div className="w-full max-w-[820px] bg-[#DA291C] text-white px-6 py-3 flex justify-between items-center rounded-tl-2xl rounded-tr-2xl cursor-pointer">
           <div className="flex flex-col font-bold">
-            <span className="text-sm">
-              {totalItems} ITEM{totalItems !== 1 && "S"}
-            </span>
+          <span className="text-sm">
+            {totalItems} {t(`item_${totalItems === 1 ? "one" : "other"}`)}
+          </span>
             <span className="text-lg">${totalPrice.toFixed(2)}</span>
           </div>
-          <span className="text-white font-bold text-sm">Proceed to cart</span>
+          <span className="text-white font-bold text-sm">{t("proceed_to_cart")}</span>
         </div>
       </div>
 
@@ -67,8 +69,8 @@ export const Cart: React.FC<CartProps> = ({
           </button>
 
           {/* Título del carrito */}
-          <h2 className="text-xl font-bold mb-2">My order</h2>
-          <p className="text-sm text-gray-500 mb-4">Details</p>
+          <h2 className="text-xl font-bold mb-2">{t("my_order")}</h2>
+          <p className="text-sm text-gray-500 mb-4">{t("details")}</p>
 
           {/* Lista de productos en el carrito */}
           <div className="overflow-y-auto max-h-[250px] pr-1">
@@ -84,7 +86,7 @@ export const Cart: React.FC<CartProps> = ({
                     className="w-12 h-12 object-contain"
                   />
                   <div>
-                    <p className="font-semibold text-sm">{item.name}</p>
+                    <p className="font-semibold text-sm">{t(item.name)}</p>
                     <p className="text-xs text-gray-500">
                       ${item.price.toFixed(2)}
                     </p>
@@ -121,17 +123,17 @@ export const Cart: React.FC<CartProps> = ({
 
           {/* Enlace simulado para aplicar códigos promocionales */}
           <div className="text-sm text-blue-500 underline cursor-pointer mb-4">
-            Apply Promo Code
+            {t("apply_promo_code")}
           </div>
 
           {/* Total del pedido y botón de checkout */}
           <div className="flex justify-between font-semibold text-lg mb-4">
-            <span>Total</span>
+            <span>{t("total")}</span>
             <span>${totalPrice.toFixed(2)}</span>
           </div>
 
           <button className="w-full bg-[var(--yellow-mcdonalds)] py-2 rounded-full font-bold text-black">
-            Checkout
+            {t("checkout")}
           </button>
         </div>
       </div>

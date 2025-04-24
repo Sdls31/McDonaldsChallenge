@@ -7,7 +7,8 @@ import { Personalize } from "../components/Personalize";
 import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
-import { AvatarApp } from "../components/AvatarApp";
+import AvatarApp from "../components/AvatarApp";
+import { FriesProcess } from "../components/FriesPage";
 
 export const Routes = () => {
   return (
@@ -43,6 +44,14 @@ export const Routes = () => {
         element={
           <CartProvider>
             <NuggetsProcess />
+          </CartProvider>
+        }
+      />
+      <Route
+        path={RoutesEnum.FRIES}
+        element={
+          <CartProvider>
+            <FriesProcess />
           </CartProvider>
         }
       />

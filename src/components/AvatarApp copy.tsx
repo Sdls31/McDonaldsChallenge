@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaceMesh, Results as FaceMeshResults } from "@mediapipe/face_mesh";
 import { Hands, Results as HandsResults } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
@@ -21,15 +21,7 @@ interface Features {
   cabello_castaño?: boolean;
 }
 
-export interface PositionProps {
-  top?: string;
-  left?: string;
-  right?: string;
-  bottom?: string;
-  transform?: string;
-}
-
-export const AvatarApp = ({ position }: { position?: PositionProps }) => {
+export default function AvatarApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const snapshotRef = useRef<HTMLCanvasElement>(null);
 
@@ -39,6 +31,7 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
   const [blink, setBlink] = useState(false);
   const [talk, setTalk] = useState(false);
 
+  // Toma la foto y envía al API
   async function analyzeImage() {
     const canvas = snapshotRef.current;
     const video = videoRef.current;
@@ -241,15 +234,19 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
       : "",
     hair: features && !features.gorra_deportiva
       ? features.cabello_rizado
-        ? "/mold-head/short-curly-hair.png"
-        : features.cabello_largo
-          ? "/mold-head/men-long-hair.png"
-          : features.cabello_corto
-            ? "/mold-head/normal-men-hair-corto.png"
-            : ""
+        ? "/mold-head/short curly hair.png"
+        : features.cabello_corto
+          ? "/mold-head/short hair.png"
+          : features.cabello_largo
+            ? `/mold-head/${
+                features.cabello_castaño ? "brown-long-hair" : "blond-long-hair"
+              }.png`
+            : `/mold-head/${
+                features.cabello_castaño ? "short hair" : "blond-medium-hair"
+              }.png`
       : "",
     beard: features?.barba_completa_corta
-      ? "/mold-head/short-beard.png"
+      ? "/mold-head/beard.png"
       : features?.bigote
       ? "/mold-head/mustache.png"
       : "",
@@ -345,4 +342,4 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
       )}
     </div>
   );
-};
+}
