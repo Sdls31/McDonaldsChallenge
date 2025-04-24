@@ -63,8 +63,7 @@ export function AvatarApp({ position }: AvatarAppProps) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer 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",
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: "gpt-4o",
@@ -227,56 +226,6 @@ export function AvatarApp({ position }: AvatarAppProps) {
     morena: "little-brown-hand.png",
     clara: "white-hand.png",
   };
-  // const src = {
-  //   head: features
-  //     ? `/mold-head/${headMap[features["color de piel"]] || "head-white.png"}`
-  //     : "",
-  //   blink: features
-  //     ? `/mold-head/${
-  //         blinkMap[features["color de piel"]] || "blink-head-white.png"
-  //       }`
-  //     : "",
-  //   talk: features
-  //     ? `/mold-head/${talkMap[features["color de piel"]] || "talk-white.png"}`
-  //     : "",
-  //   chest: features
-  //     ? `/chest/${
-  //         chestMap[features.color_playera.toLowerCase()] || "white-tshirt.png"
-  //       }`
-  //     : "",
-  //   arm: features
-  //     ? `/chest/${handMap[features["color de piel"]] || "black-hand.png"}`
-  //     : "",
-  //   extras: features?.gorra_deportiva
-  //     ? "/mold-head/black-cap.png"
-  //     : features?.audifonos
-  //     ? "/mold-head/headphones.png"
-  //     : "",
-  //   hair:
-  //     features && !features.gorra_deportiva
-  //       ? features.cabello_rizado
-  //         ? "/mold-head/short-curly-hair.png"
-  //         : features.cabello_largo
-  //         ? "/mold-head/men-long-hair.png"
-  //         : features.cabello_corto
-  //         ? "/mold-head/normal-men-hair-corto.png"
-  //         : ""
-  //       : "",
-  //   beard: features?.barba_completa_corta
-  //     ? features["color de piel"] === "moreno-alto" ||
-  //       features["color de piel"] === "oscura"
-  //       ? "/mold-head/black-beard.png"
-  //       : "/mold-head/short-beard.png"
-  //     : features?.bigote
-  //     ? "/mold-head/mustache.png"
-  //     : "",
-  //   glasses: features?.lentes
-  //     ? "/mold-head/frame black glasses.png"
-  //     : features?.lentes_sol
-  //     ? "/mold-head/sunglasses.png"
-  //     : "",
-  // };
-
   useEffect(() => {
     if (Object.keys(usedImages).length === 0) {
       analyzeImage().catch(console.error);

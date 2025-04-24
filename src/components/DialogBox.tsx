@@ -26,6 +26,7 @@ export const DialogBox = ({
       style={{
         width: isSmall ? "15rem" : "25rem",
         border: "2px solid #FFC72C",
+        borderRadius: "1rem",
         top: positionAvatar.top,
         left: positionAvatar.left || "",
         right: positionAvatar.right || "",
