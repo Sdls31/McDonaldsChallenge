@@ -238,6 +238,8 @@ const FriesPage = () => {
       BackStep={RoutesEnum.MAIN}
       Component={
         <>
+         {isAvatar && (
+           <>
           <AvatarApp position={avatarPosition} />
           <DialogBox
             text="Want more fries?"
@@ -245,6 +247,8 @@ const FriesPage = () => {
             positionAvatar={positionDialogBox}
             size="small"
           />
+          </>
+         )}
           <div className="min-h-screen flex justify-center bg-white font-poppins pt-12">
             <div className="w-full max-w-md flex flex-col items-center gap-8 px-6">
               <div className="w-full max-w-[800px] relative z-10 flex flex-col items-center gap-6 mt-6">
