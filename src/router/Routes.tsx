@@ -9,6 +9,7 @@ import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
 import AvatarApp from "../components/AvatarApp";
 import { FriesProcess } from "../components/FriesPage";
+import { HappyMealPage } from "../components/HappyMealPage";
 
 
 export const Routes = () => {
@@ -56,6 +57,15 @@ export const Routes = () => {
           </CartProvider>
         }
       />
+      <Route
+        path={RoutesEnum.HAPPY_MEAL}
+        element={
+          <CartProvider>
+            <HappyMealPage />
+          </CartProvider>
+        }
+      />
+
       <Route path={RoutesEnum.AVATAR} element={<AvatarApp />} />
     </RoutesFromRouter>
   );

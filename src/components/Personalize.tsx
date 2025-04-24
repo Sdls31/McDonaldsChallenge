@@ -9,6 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { findMenuItemByTitle } from "../types/MenuDetails";
 import { useCart } from "../context/CartContext";
+
 type Ingredients = {
   topBun: boolean;
   bottomBun: boolean;
@@ -27,8 +28,12 @@ export const Personalize = () => {
   const { product } = location.state || {};
   const burgerObject = findMenuItemByTitle(product.name);
   const { addToCart } = useCart();
+  
+
   const [meatPrice, setMeatPrice] = useState<number>(0);
   const [cheesePrice, setCheesePrice] = useState<number>(0);
+  const basePrice = burgerObject?.price ?? 0;
+  const totalPrice = (basePrice + meatPrice + cheesePrice).toFixed(2);
 
   const prices = {
     meat: 1.99,
@@ -146,18 +151,19 @@ export const Personalize = () => {
                 const prevIndex = previousIndexRefCheese.current;
 
                 if (newIndex > prevIndex) {
-                  setIngredients({
-                    ...ingredients,
-                    cheese: ingredients.cheese + 1,
-                  });
-                  setCheesePrice(cheesePrice + prices.cheese);
+                  setIngredients((prev) => ({
+                    ...prev,
+                    cheese: prev.cheese + 1,
+                  }));
+                  setCheesePrice((prev) => prev + prices.cheese);
                 } else if (newIndex < prevIndex) {
-                  setIngredients({
-                    ...ingredients,
-                    cheese: ingredients.cheese - 1,
-                  });
-                  setCheesePrice(cheesePrice - prices.cheese);
+                  setIngredients((prev) => ({
+                    ...prev,
+                    cheese: prev.cheese - 1,
+                  }));
+                  setCheesePrice((prev) => prev - prices.cheese);
                 }
+                
 
                 previousIndexRefCheese.current = newIndex;
               }}
@@ -192,19 +198,18 @@ export const Personalize = () => {
                 const prevIndex = previousIndexRefMeat.current;
 
                 if (newIndex > prevIndex) {
-                  setIngredients({
-                    ...ingredients,
-                    meat: ingredients.meat + 1,
-                  });
-                  setMeatPrice(meatPrice + prices.meat);
+                  setIngredients((prev) => ({
+                    ...prev,
+                    meat: prev.meat + 1,
+                  }));
+                  setMeatPrice((prev) => prev + prices.meat);
                 } else if (newIndex < prevIndex) {
-                  setIngredients({
-                    ...ingredients,
-                    meat: ingredients.meat - 1,
-                  });
-                  setMeatPrice(meatPrice - prices.meat);
+                  setIngredients((prev) => ({
+                    ...prev,
+                    meat: prev.meat - 1,
+                  }));
+                  setMeatPrice((prev) => prev - prices.meat);
                 }
-
                 previousIndexRefMeat.current = newIndex;
               }}
             >
@@ -342,8 +347,9 @@ export const Personalize = () => {
               )}
               <button
                 onClick={() => {
-                  toggleIngredient("meat");
-                  meatSwiperRef.current?.slideNext();
+                  if (ingredients.meat < 3) {
+                    meatSwiperRef.current?.slideNext(); // solo si no es el máximo
+                  }
                 }}
                 className={`w-24 h-24 rounded-full border-2 ${
                   isMeatOrCheeseActive("meat")
@@ -358,6 +364,7 @@ export const Personalize = () => {
                   className="w-16 h-16"
                 />
               </button>
+
             </div>
 
             {/* Queso */}
@@ -369,8 +376,9 @@ export const Personalize = () => {
               )}
               <button
                 onClick={() => {
-                  toggleIngredient("cheese");
-                  cheeseSwiperRef.current?.slideNext();
+                  if (ingredients.cheese < 3) {
+                    cheeseSwiperRef.current?.slideNext(); // solo si no es el máximo
+                  }
                 }}
                 className={`w-24 h-24 rounded-full border-2 ${
                   isMeatOrCheeseActive("cheese")
@@ -385,15 +393,17 @@ export const Personalize = () => {
                   className="w-16 h-16"
                 />
               </button>
+
             </div>
           </div>
         </div>
       </div>
 
       <div className="mt-8 p-4">
-        <div className="text-xl font-bold mb-4 text-center">
-          ${burgerObject?.price}
-        </div>
+      <div className="text-xl font-bold mb-4 text-center">
+        ${totalPrice}
+      </div>
+
         <button
           className="py-3 px-6 bg-yellow-400 rounded-[10px] font-semibold hover:bg-yellow-500 transition-colors mx-auto block"
           onClick={() => {
