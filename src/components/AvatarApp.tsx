@@ -242,10 +242,12 @@ export default function AvatarApp() {
             : ""
       : "",
     beard: features?.barba_completa_corta
-      ? "/mold-head/short-beard.png"
+      ? (features["color de piel"] === "moreno-alto" || features["color de piel"] === "oscura"
+          ? "/mold-head/black-beard.png"
+          : "/mold-head/short-beard.png")
       : features?.bigote
-      ? "/mold-head/mustache.png"
-      : "",
+        ? "/mold-head/mustache.png"
+        : "",
     glasses: features?.lentes
       ? "/mold-head/frame black glasses.png"
       : features?.lentes_sol
@@ -272,14 +274,15 @@ export default function AvatarApp() {
         <div className="relative w-[320px] h-[240px] mt-4">
           <img
             src={src.chest}
-            className="absolute inset-0 w-full h-full"
-            alt=""
-            style={{ top: "calc(65% + 1cm)" }}
+            className="absolute left-0 right-0"
+            alt="chest"
+            style={{ top: "75%", width: "100%", height: "auto", zIndex: 0 }}
+            onError={() => console.error("Error loading chest image:", src.chest)}
           />
           <img
             src={src.arm}
             className="absolute inset-x-0 w-full h-full z-20"
-            style={{ top: "20px", bottom: "auto" }}
+            style={{ top: "60px", bottom: "auto" }}
             alt=""
           />
           <div
