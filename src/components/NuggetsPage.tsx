@@ -5,6 +5,7 @@ import { Layout } from "./Layout";
 import { HiPlus, HiMinus } from "react-icons/hi";
 import AvatarApp from "./AvatarApp";
 import { DialogBox } from "./DialogBox";
+import { useCart } from "../context/CartContext";
 
 // Porciones disponibles (4, 6, 8, 10, 20 nuggets)
 const PORTIONS = [4, 6, 8, 10, 20];
@@ -24,7 +25,7 @@ const NuggetsPage = () => {
   const escapeNuggetsRef = useRef<HTMLDivElement>(null);
 
   const price = (orderCount * currentCount * PRICE_PER_NUGGET).toFixed(2);
-
+  const { addToCart } = useCart();
   // ----------------------------
   // 🔹 FUNCIONES HANDLER
   // ----------------------------
@@ -80,8 +81,15 @@ const NuggetsPage = () => {
   };
 
   const handleAdd = () => {
-    console.log(`Añadido al carrito: ${currentCount} nuggets por $${price}`);
+    addToCart({
+      id: `nuggets-${PORTIONS[portionIndex]}`,
+      name: `${PORTIONS[portionIndex]} McNuggets`,
+      price: parseFloat(price),
+      quantity: orderCount,
+      image: "src/assets/Nugget.svg", // puedes cambiar a una imagen distinta según porción si prefieres
+    });
   };
+  
 
   useEffect(() => {
     if (removingNuggets.length === 0) return;

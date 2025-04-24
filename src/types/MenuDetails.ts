@@ -17,6 +17,7 @@ interface MenuDetails {
   combos: MenuItem[];
   beverages: MenuItem[];
   fries: MenuItem[];
+  happy: MenuItem[];
 }
 
 interface VerticalMenuType {
@@ -361,6 +362,15 @@ export const menu: MenuDetails = {
       description: "Select the right portion of fries for your craving.",
     },
   ],
+  happy: [
+    {
+      id: 1,
+      title: "Build your Happy Meal®",
+      img: "src/assets/MenuItems/HappyMeal.svg",
+      link: RoutesEnum.HAPPY_MEAL,
+      description: "Customize a fun Happy Meal® for your little one!",
+    },
+  ]  
   
   
 };

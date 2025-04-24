@@ -5,6 +5,7 @@ import { Layout } from "./Layout";
 import { HiPlus, HiMinus } from "react-icons/hi";
 import AvatarApp from "./AvatarApp";
 import { DialogBox } from "./DialogBox";
+import { useCart } from "../context/CartContext";
 
 const PRICE_PER_FRY = 0.2;
 const SIZES = ["S", "M", "L"];
@@ -20,6 +21,7 @@ const FriesPage = () => {
   const boxRef = useRef<HTMLDivElement>(null);
   const boxImgRef = useRef<HTMLImageElement>(null);
   const fryStaticRef = useRef<HTMLDivElement>(null);
+  const { addToCart } = useCart(); // añade esto dentro de FriesPage
 
   const totalFries = COUNTS[sizeIndex] * orderCount;
   const price = (totalFries * PRICE_PER_FRY).toFixed(2);
@@ -344,6 +346,20 @@ const FriesPage = () => {
                       Add to cart
                     </button>
                   </div>
+                  <button
+                  onClick={() => {
+                    addToCart({
+                      id: `fries-${SIZES[sizeIndex]}`, // un ID único por tamaño
+                      name: `Fries (${SIZES[sizeIndex]})`,
+                      price: parseFloat(price),
+                      quantity: orderCount,
+                      image: "src/assets/MenuFries/FriesBox.svg", // puedes cambiarlo por una imagen distinta por tamaño si quieres
+                    });
+                  }}
+                  className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
+                >
+                  Add to cart
+                </button>
                 </div>
               </div>
             </div>
