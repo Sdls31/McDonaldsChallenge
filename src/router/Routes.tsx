@@ -35,7 +35,7 @@ export const Routes = () => {
         }
       />
       <Route path={RoutesEnum.QR} element={<Qr />} />
-      <Route path={RoutesEnum.DEDO} element={< SwipeAnimation/>} />
+      <Route path={RoutesEnum.DEDO} element={<SwipeAnimation />} />
       <Route
         path={RoutesEnum.MAIN}
         element={
@@ -94,7 +94,6 @@ export const Routes = () => {
           </CartProvider>
         }
       />
-
     </RoutesFromRouter>
   );
 };
