@@ -3,26 +3,27 @@ import { gsap } from "gsap";
 import { RoutesEnum } from "../router/RoutesEnum";
 import { Layout } from "./Layout";
 import { HiPlus, HiMinus } from "react-icons/hi";
+import AvatarApp from "./AvatarApp";
+import { DialogBox } from "./DialogBox";
 
 // Porciones disponibles (4, 6, 8, 10, 20 nuggets)
 const PORTIONS = [4, 6, 8, 10, 20];
 const PRICE_PER_NUGGET = 0.775;
 
-
 const NuggetsPage = () => {
-
   const [portionIndex, setPortionIndex] = useState(0);
   const [currentCount, setCurrentCount] = useState(0); // inicia vacío
   const [initialLoadDone, setInitialLoadDone] = useState(false);
   const [fallingNuggets, setFallingNuggets] = useState<number[]>([]);
-  const [removingNuggets, setRemovingNuggets] = useState<HTMLImageElement[]>([]);
+  const [removingNuggets, setRemovingNuggets] = useState<HTMLImageElement[]>(
+    []
+  );
   const [orderCount, setOrderCount] = useState(1); // órdenes
 
   const nuggetContainerRef = useRef<HTMLDivElement>(null);
   const escapeNuggetsRef = useRef<HTMLDivElement>(null);
 
   const price = (orderCount * currentCount * PRICE_PER_NUGGET).toFixed(2);
-
 
   // ----------------------------
   // 🔹 FUNCIONES HANDLER
@@ -69,44 +70,45 @@ const NuggetsPage = () => {
       setRemovingNuggets(toRemove);
     }
 
-    setTimeout(() => {
-      setCurrentCount(newCount);
-      setPortionIndex(newIndex);
-    }, extra > 0 ? extra * 100 + 100 : 0);
+    setTimeout(
+      () => {
+        setCurrentCount(newCount);
+        setPortionIndex(newIndex);
+      },
+      extra > 0 ? extra * 100 + 100 : 0
+    );
   };
 
   const handleAdd = () => {
     console.log(`Añadido al carrito: ${currentCount} nuggets por $${price}`);
   };
 
-
   useEffect(() => {
     if (removingNuggets.length === 0) return;
-  
+
     const leftLid = document.getElementById("leftLid");
     const rightLid = document.getElementById("rightLid");
-  
+
     // 1️⃣ Abrimos las tapas primero
     // 1️⃣ Abrimos las tapas hacia abajo (rotación positiva)
-gsap.to(leftLid, {
-  rotate: 60,
-  duration: 0.4,
-  transformOrigin: "top left",
-  ease: "power2.out",
-});
-gsap.to(rightLid, {
-  rotate: -60,
-  duration: 0.4,
-  transformOrigin: "top right",
-  ease: "power2.out",
-});
+    gsap.to(leftLid, {
+      rotate: 60,
+      duration: 0.4,
+      transformOrigin: "top left",
+      ease: "power2.out",
+    });
+    gsap.to(rightLid, {
+      rotate: -60,
+      duration: 0.4,
+      transformOrigin: "top right",
+      ease: "power2.out",
+    });
 
-  
     // 2️⃣ Luego caen los nuggets
     removingNuggets.forEach((nugget, i) => {
       setTimeout(() => {
         const finalRotation = Math.random() * 360 - 180;
-  
+
         gsap.to(nugget, {
           y: "+=10",
           duration: 0.1,
@@ -123,28 +125,26 @@ gsap.to(rightLid, {
         });
       }, i * 100);
     });
-  
+
     // 3️⃣ Cerramos las tapas después que todos hayan caído
     const totalDelay = removingNuggets.length * 100 + 1300;
-  
+
     setTimeout(() => {
       // 3️⃣ Cerramos las tapas
-gsap.to(leftLid, {
-  rotate: 0,
-  duration: 0.5,
-  ease: "power2.inOut",
-});
-gsap.to(rightLid, {
-  rotate: 0,
-  duration: 0.5,
-  ease: "power2.inOut",
-});
-
+      gsap.to(leftLid, {
+        rotate: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+      });
+      gsap.to(rightLid, {
+        rotate: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+      });
     }, totalDelay);
-  
+
     setRemovingNuggets([]);
   }, [removingNuggets]);
-  
 
   // 🟨 PRIMERA CARGA
   useEffect(() => {
@@ -170,7 +170,8 @@ gsap.to(rightLid, {
         nugget.style.top = `-800px`;
         nugget.style.transform = `rotate(${Math.random() * 60 - 30}deg)`;
 
-        const parent = id < 0 ? escapeNuggetsRef.current : nuggetContainerRef.current;
+        const parent =
+          id < 0 ? escapeNuggetsRef.current : nuggetContainerRef.current;
         parent?.appendChild(nugget);
 
         const finalX = Math.random() * 60 - 30;
@@ -194,7 +195,6 @@ gsap.to(rightLid, {
             },
           });
         };
-        
 
         const dropBounceExit = (direction: number) => {
           // Etapa 1: caer por detrás
@@ -231,7 +231,6 @@ gsap.to(rightLid, {
             },
           });
         };
-        
 
         if (id < 0) {
           const index = Math.abs(id) - 1;
@@ -251,121 +250,149 @@ gsap.to(rightLid, {
     setTimeout(() => setFallingNuggets([]), fallingNuggets.length * 250 + 1000);
   }, [fallingNuggets]);
 
+  const avatarPosition = {
+    top: "1100px",
+    right: "-45rem",
+  };
+  const positionDialogBox = {
+    top: "61.5rem",
+    right: "12.5rem",
+  };
+
   return (
     <Layout
       Title={`${currentCount} McNuggets`}
       BackStep={RoutesEnum.MAIN}
       Component={
-        <div className="min-h-screen flex justify-center bg-white font-poppins pt-12">
-          <div className="w-full max-w-md flex flex-col items-center gap-8 px-6">
-            {/* NUGGET ZONE */}
-            <div className="w-full max-w-[800px] relative z-10 flex flex-col items-center gap-6 mt-6">
-              <div className="relative w-[480px] h-[440px] flex flex-col items-center justify-center gap-6 mt-16">
-                {/* Caja */}
-                <div className="relative w-[320px] h-[270px] flex justify-center items-center z-0 overflow-visible">
-                  {/* Botón - */}
-                  <button
-                    onClick={handleDecrement}
-                    disabled={portionIndex === 0}
-                    className={`absolute left-[-90px] top-[50%] -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center transition-transform duration-300 hover:scale-110 shadow-lg ${
-                      portionIndex === 0
-                        ? "bg-[#d9dbe1] border border-black/10 text-black opacity-100"
-                        : "bg-white"
-                    }`}
-                  >
-                    <HiMinus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
-                  </button>
-  
-                  <img
-                    src="src/assets/MenuNuggets/TapaNugget.svg"
-                    alt="Tapa Caja"
-                    className="absolute top-[-70px] left-[-10px] z-[30] w-full object-contain"
-                  />
-  
-                  <div
-                    ref={nuggetContainerRef}
-                    className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[40] pointer-events-none"
-                  />
-                  <div
-                    ref={escapeNuggetsRef}
-                    className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[60] pointer-events-none"
-                  />
-  
-                  {/* Tapas laterales */}
-                  <img
-                    id="leftLid"
-                    src="src/assets/MenuNuggets/TapaAbierta.svg"
-                    alt="Tapa Izquierda"
-                    className="absolute bottom-[5px] left-[35px] w-[80px] h-[10px] z-[40]"
-                    style={{ transformOrigin: "top left", transform: "rotate(0deg)" }}
-                  />
-                  <img
-                    id="rightLid"
-                    src="src/assets/MenuNuggets/TapaAbierta.svg"
-                    alt="Tapa Derecha"
-                    className="absolute bottom-[5px] right-[45px] w-[80px] h-[10px] z-[40]"
-                    style={{ transformOrigin: "top right", transform: "rotate(0deg)" }}
-                  />
-  
-                  <img
-                    src="src/assets/MenuNuggets/BaseNugget.svg"
-                    alt="Base Caja"
-                    className="absolute bottom-[5px] left-0 z-[50] w-full object-contain"
-                  />
-  
-                  {/* Botón + */}
-                  <button
-                    onClick={handleIncrement}
-                    disabled={portionIndex === PORTIONS.length - 1}
-                    className={`absolute right-[-70px] top-[50%] -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center transition-transform duration-300 hover:scale-110 shadow-lg ${
-                      portionIndex === PORTIONS.length - 1
-                        ? "bg-[#d9dbe1] border border-black/10 text-black opacity-100"
-                        : "bg-white"
-                    }`}
-                  >
-                    <HiPlus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
-                  </button>
-                </div>
-  
-                {/* Controles de orden y precio */}
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <div className="flex items-center justify-center gap-8">
-                    <div className="flex items-center rounded-full px-5 py-2 bg-white shadow-sm border border-gray-300 text-lg font-medium">
-                      <button
-                        onClick={() => setOrderCount((prev) => Math.max(1, prev - 1))}
-                        className="text-[22px] text-gray-500 font-bold px-3"
-                      >
-                        –
-                      </button>
-                      <span className="text-black mx-2 text-[18px]">{orderCount}</span>
-                      <button
-                        onClick={() => setOrderCount((prev) => prev + 1)}
-                        className="text-[22px] text-[var(--yellow-mcdonalds)] font-bold px-3"
-                      >
-                        +
-                      </button>
-                    </div>
-                    <div className="text-[20px] font-bold text-black">${price}</div>
+        <>
+          <AvatarApp position={avatarPosition} />
+          <DialogBox
+            text="Crispy and Juicy?"
+            side="right"
+            positionAvatar={positionDialogBox}
+            size="small"
+          />
+          <div className="min-h-screen flex justify-center bg-white font-poppins pt-12">
+            <div className="w-full max-w-md flex flex-col items-center gap-8 px-6">
+              {/* NUGGET ZONE */}
+              <div className="w-full max-w-[800px] relative z-10 flex flex-col items-center gap-6 mt-6">
+                <div className="relative w-[480px] h-[440px] flex flex-col items-center justify-center gap-6 mt-16">
+                  {/* Caja */}
+                  <div className="relative w-[320px] h-[270px] flex justify-center items-center z-0 overflow-visible">
+                    {/* Botón - */}
+                    <button
+                      onClick={handleDecrement}
+                      disabled={portionIndex === 0}
+                      className={`absolute left-[-90px] top-[50%] -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center transition-transform duration-300 hover:scale-110 shadow-lg ${
+                        portionIndex === 0
+                          ? "bg-[#d9dbe1] border border-black/10 text-black opacity-100"
+                          : "bg-white"
+                      }`}
+                    >
+                      <HiMinus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
+                    </button>
+
+                    <img
+                      src="src/assets/MenuNuggets/TapaNugget.svg"
+                      alt="Tapa Caja"
+                      className="absolute top-[-70px] left-[-10px] z-[30] w-full object-contain"
+                    />
+
+                    <div
+                      ref={nuggetContainerRef}
+                      className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[40] pointer-events-none"
+                    />
+                    <div
+                      ref={escapeNuggetsRef}
+                      className="absolute bottom-[20px] left-0 w-full h-full overflow-visible z-[60] pointer-events-none"
+                    />
+
+                    {/* Tapas laterales */}
+                    <img
+                      id="leftLid"
+                      src="src/assets/MenuNuggets/TapaAbierta.svg"
+                      alt="Tapa Izquierda"
+                      className="absolute bottom-[5px] left-[35px] w-[80px] h-[10px] z-[40]"
+                      style={{
+                        transformOrigin: "top left",
+                        transform: "rotate(0deg)",
+                      }}
+                    />
+                    <img
+                      id="rightLid"
+                      src="src/assets/MenuNuggets/TapaAbierta.svg"
+                      alt="Tapa Derecha"
+                      className="absolute bottom-[5px] right-[45px] w-[80px] h-[10px] z-[40]"
+                      style={{
+                        transformOrigin: "top right",
+                        transform: "rotate(0deg)",
+                      }}
+                    />
+
+                    <img
+                      src="src/assets/MenuNuggets/BaseNugget.svg"
+                      alt="Base Caja"
+                      className="absolute bottom-[5px] left-0 z-[50] w-full object-contain"
+                    />
+
+                    {/* Botón + */}
+                    <button
+                      onClick={handleIncrement}
+                      disabled={portionIndex === PORTIONS.length - 1}
+                      className={`absolute right-[-70px] top-[50%] -translate-y-1/2 w-[70px] h-[70px] rounded-full flex justify-center items-center transition-transform duration-300 hover:scale-110 shadow-lg ${
+                        portionIndex === PORTIONS.length - 1
+                          ? "bg-[#d9dbe1] border border-black/10 text-black opacity-100"
+                          : "bg-white"
+                      }`}
+                    >
+                      <HiPlus className="text-[var(--yellow-mcdonalds)] text-[38px]" />
+                    </button>
                   </div>
-  
-                  <button
-                    onClick={handleAdd}
-                    className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
-                  >
-                    Add to cart
-                  </button>
+
+                  {/* Controles de orden y precio */}
+                  <div className="flex flex-col items-center justify-center gap-4">
+                    <div className="flex items-center justify-center gap-8">
+                      <div className="flex items-center rounded-full px-5 py-2 bg-white shadow-sm border border-gray-300 text-lg font-medium">
+                        <button
+                          onClick={() =>
+                            setOrderCount((prev) => Math.max(1, prev - 1))
+                          }
+                          className="text-[22px] text-gray-500 font-bold px-3"
+                        >
+                          –
+                        </button>
+                        <span className="text-black mx-2 text-[18px]">
+                          {orderCount}
+                        </span>
+                        <button
+                          onClick={() => setOrderCount((prev) => prev + 1)}
+                          className="text-[22px] text-[var(--yellow-mcdonalds)] font-bold px-3"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <div className="text-[20px] font-bold text-black">
+                        ${price}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={handleAdd}
+                      className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
+                    >
+                      Add to cart
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       }
     />
   );
-  
 };
 
 export const NuggetsProcess = () => {
   return <NuggetsPage />;
 };
-
