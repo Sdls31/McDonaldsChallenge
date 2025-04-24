@@ -21,6 +21,21 @@ The platform features a guided experience led by a personalized avatar, designed
 - **Tailwind CSS**: For utility-first CSS styling, allowing for fast and responsive design implementation.
 - **MediaPipe**: For real-time machine learning models, enabling features like face detection and pose estimation.
 - **GSAP**: For creating smooth and interactive animations, enhancing the overall user experience with dynamic visual effects.
+  
+## Viewing Instructions
+
+To ensure the platform displays correctly, please follow these steps:
+
+1. **Set Browser Window Dimensions**:
+   - Set the width to **820px** and the height to **1160px**.
+
+2. **Adjust Zoom**:
+   - Set the zoom level of your browser to **50%** for optimal viewing.
+
+3. **Enable Responsive Mode**:
+   - Ensure that the platform is in **responsive mode** to check its appearance on different screen sizes.
+
+These settings are essential to experience the design as intended.
 
 ## Installation
 ### 1. Clone the repository to your local machine
