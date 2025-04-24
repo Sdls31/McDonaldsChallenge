@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaceMesh, Results as FaceMeshResults } from "@mediapipe/face_mesh";
 import { Hands, Results as HandsResults } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
@@ -21,7 +21,15 @@ interface Features {
   cabello_castaño?: boolean;
 }
 
-export default function AvatarApp() {
+export interface PositionProps {
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
+  transform?: string;
+}
+
+export const AvatarApp = ({ position }: { position?: PositionProps }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const snapshotRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,7 +39,6 @@ export default function AvatarApp() {
   const [blink, setBlink] = useState(false);
   const [talk, setTalk] = useState(false);
 
-  // Toma la foto y envía al API
   async function analyzeImage() {
     const canvas = snapshotRef.current;
     const video = videoRef.current;
@@ -338,4 +345,4 @@ export default function AvatarApp() {
       )}
     </div>
   );
-}
+};

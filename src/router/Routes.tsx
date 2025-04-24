@@ -10,7 +10,6 @@ import { OrderType } from "../components/OrderType";
 import AvatarApp from "../components/AvatarApp";
 import { FriesProcess } from "../components/FriesPage";
 
-
 export const Routes = () => {
   return (
     <RoutesFromRouter>
