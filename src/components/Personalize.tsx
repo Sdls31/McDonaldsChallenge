@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Layout } from "../components/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
-import { RoutesEnum } from "../router/RoutesEnum";
+// import { RoutesEnum } from "../router/RoutesEnum";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";

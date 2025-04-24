@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaceMesh, Results as FaceMeshResults } from "@mediapipe/face_mesh";
 import { Hands, Results as HandsResults } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
@@ -288,7 +288,6 @@ export function AvatarApp({ position }: AvatarAppProps) {
     >
       <video ref={videoRef} className="hidden" autoPlay playsInline />
       <canvas ref={snapshotRef} width={320} height={240} className="hidden" />
-
       {features && (
         <div
           className="absolute w-[320px] h-[240px] mt-4 z-60"

@@ -2,6 +2,10 @@ const es: { [key: string]: string } = {
   // UI
   "Touch to start": "Toca para iniciar",
   Language: "Lenguaje",
+  "Font size": "Tamaño de letra",
+  Small: "Chica",
+  Medium: "Mediana",
+  Large: "Grande",
   "Eat in": "Comer aquí",
   "Take away": "Para llevar",
   "No items": "No hay elementos para mostrar",
