@@ -11,6 +11,8 @@ import { FriesProcess } from "../components/FriesPage";
 import { Checkout } from "../components/Checkout";
 import { Qr } from "../components/Qr";
 import { AvatarApp } from "../components/AvatarApp";
+import SwipeAnimation from "../components/SwipeAnimation";
+
 
 export const Routes = () => {
   return (
@@ -19,6 +21,7 @@ export const Routes = () => {
       <Route path={RoutesEnum.TYPE} element={<OrderType />} />
       <Route path={RoutesEnum.CHECKOUT} element={<Checkout />} />
       <Route path={RoutesEnum.QR} element={<Qr />} />
+      <Route path={RoutesEnum.DEDO} element={< SwipeAnimation/>} />
       <Route
         path={RoutesEnum.MAIN}
         element={

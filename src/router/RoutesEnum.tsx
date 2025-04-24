@@ -10,4 +10,5 @@ export enum RoutesEnum {
   FRIES = "/fries",
   CHECKOUT = "/checkout",
   QR = "/qr",
+  DEDO = "/dedo",
 }

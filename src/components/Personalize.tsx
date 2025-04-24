@@ -9,6 +9,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { findMenuItemByTitle } from "../types/MenuDetails";
 import { useCart } from "../context/CartContext";
+import SwipeAnimation from "./SwipeAnimation";
+
 type Ingredients = {
   topBun: boolean;
   bottomBun: boolean;
@@ -186,6 +188,9 @@ export const Personalize = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
+            <div className="absolute w-[200px] h-[40px] flex justify-center items-center mt-64">
+                <SwipeAnimation />
+            </div>
             {/* Swiper Carne*/}
             <Swiper
               onSwiper={(swiper) => (meatSwiperRef.current = swiper)}
