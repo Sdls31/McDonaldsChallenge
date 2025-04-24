@@ -9,13 +9,20 @@ import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
 import { FriesProcess } from "../components/FriesPage";
 import { HappyMealPage } from "../components/HappyMealPage";
+import { Checkout } from "../components/Checkout";
+import { Qr } from "../components/Qr";
 import { AvatarApp } from "../components/AvatarApp";
+import SwipeAnimation from "../components/SwipeAnimation";
+
 
 export const Routes = () => {
   return (
     <RoutesFromRouter>
       <Route path={RoutesEnum.HOME} element={<HomePage />} />
       <Route path={RoutesEnum.TYPE} element={<OrderType />} />
+      <Route path={RoutesEnum.CHECKOUT} element={<Checkout />} />
+      <Route path={RoutesEnum.QR} element={<Qr />} />
+      <Route path={RoutesEnum.DEDO} element={< SwipeAnimation/>} />
       <Route
         path={RoutesEnum.MAIN}
         element={
