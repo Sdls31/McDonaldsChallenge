@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Plus, Minus, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 export type CartItem = {
   id: string;
@@ -26,6 +27,7 @@ export const Cart: React.FC<CartProps> = ({
   const [showDetails, setShowDetails] = useState(false);
   const { removeFromCart, addToCart } = useCart();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -132,7 +134,8 @@ export const Cart: React.FC<CartProps> = ({
             <span>${totalPrice.toFixed(2)}</span>
           </div>
 
-          <button className="w-full bg-[var(--yellow-mcdonalds)] py-2 rounded-full font-bold text-black">
+          <button className="w-full bg-[var(--yellow-mcdonalds)] py-2 rounded-full font-bold text-black" 
+            onClick={() => navigate('/checkout')}>
             {t("checkout")}
           </button>
         </div>

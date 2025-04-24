@@ -8,13 +8,18 @@ import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
 import { FriesProcess } from "../components/FriesPage";
+import { Checkout } from "../components/Checkout";
+import { Qr } from "../components/Qr";
 import { AvatarApp } from "../components/AvatarApp";
+
 
 export const Routes = () => {
   return (
     <RoutesFromRouter>
       <Route path={RoutesEnum.HOME} element={<HomePage />} />
       <Route path={RoutesEnum.TYPE} element={<OrderType />} />
+      <Route path={RoutesEnum.CHECKOUT} element={<Checkout />} />
+      <Route path={RoutesEnum.QR} element={<Qr />} />
       <Route
         path={RoutesEnum.MAIN}
         element={

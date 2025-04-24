@@ -1,14 +1,13 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export const ToggleButton = () => {
-  const [isOn, setIsOn] = useState<Boolean>(true);
   const { i18n, t } = useTranslation();
+  const currentLanguage = i18n.language;
 
   const handleChangeLanguage = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    setIsOn(!isOn);
-    i18n.changeLanguage(i18n.language === "es" ? "en" : "es");
+    const newLang = currentLanguage === "es" ? "en" : "es";
+    i18n.changeLanguage(newLang);
   };
 
   return (
@@ -29,10 +28,10 @@ export const ToggleButton = () => {
 
           <div
             className={`w-14 h-12 rounded-full transition-transform duration-300 bg-yellow-400 shadow-md z-10 flex items-center justify-center font-bold text-black ${
-              isOn ? "translate-x-12" : "translate-x-0"
+              currentLanguage === "en" ? "translate-x-12" : "translate-x-0"
             }`}
           >
-            {isOn ? "En" : "Es"}
+            {currentLanguage === "en" ? "En" : "Es"}
           </div>
         </button>
       </div>

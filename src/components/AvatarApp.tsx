@@ -287,14 +287,14 @@ export const AvatarApp = ({ position }: { position?: PositionProps }) => {
     <div className="flex flex-col items-center">
       <video ref={videoRef} className="hidden" autoPlay playsInline />
       <canvas ref={snapshotRef} width={320} height={240} className="hidden" />
-      {!features && (
+      {/* {!features && (
         <button
           onClick={() => analyzeImage().catch(console.error)}
           className="mt-8 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Crear Avatar
         </button>
-      )}
+      )} */}
       {features && (
         <div
           className="absolute w-[320px] h-[240px] z-60"
