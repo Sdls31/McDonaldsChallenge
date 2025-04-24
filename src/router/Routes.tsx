@@ -8,6 +8,7 @@ import { NuggetsProcess } from "../components/NuggetsPage";
 import { CartProvider } from "../context/CartContext";
 import { OrderType } from "../components/OrderType";
 import { FriesProcess } from "../components/FriesPage";
+import { HappyMealPage } from "../components/HappyMealPage";
 import { Checkout } from "../components/Checkout";
 import { Qr } from "../components/Qr";
 import { AvatarApp } from "../components/AvatarApp";
@@ -62,6 +63,16 @@ export const Routes = () => {
           </CartProvider>
         }
       />
+      <Route
+        path={RoutesEnum.HAPPY_MEAL}
+        element={
+          <CartProvider>
+            <HappyMealPage />
+          </CartProvider>
+        }
+      />
+
+      <Route path={RoutesEnum.AVATAR} element={<AvatarApp />} />
     </RoutesFromRouter>
   );
 };

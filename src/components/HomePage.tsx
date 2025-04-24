@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ToggleButton } from "./ToggleButton";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { FontSizeSelect } from "./FontSizeSelectProps";
 
 export const HomePage = () => {
   const { t } = useTranslation();
@@ -47,53 +48,44 @@ export const HomePage = () => {
         className="absolute w-full h-[45%] bg-no-repeat bg-bottom bg-contain z-10 self-end"
       />
 
-      <div className="absolute h-[28%] w-full bg-[var(--green-mcdonalds)] flex justify-around items-start z-20 self-end">
-        <div className="pl-[2rem]">
+      <div className="absolute h-[30%] w-full bg-[var(--green-mcdonalds)] flex justify-around items-start z-20 self-end">
+        {/* Logo mantiene su posición */}
+        <div className="pl-[2rem] pt-8">
           <img src="src/assets/McDonalds.svg" alt="Logo" />
         </div>
 
-        <div className="flex pr-[2rem] items-center justify-center h-[15rem] flex-col gap-3">
-          <p className={`text-white font-bold font-[var(--font-global)] ${fontSizeClass}`}>
+        {/* Columna de elementos a la derecha */}
+        <div 
+  className="flex pr-[2rem] translate-y-[1rem] items-center justify-center flex-col"
+
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Texto "Touch to start" */}
+          <p className={`text-white font-bold font-[var(--font-global)] ${fontSizeClass} mb-4`}>
             {t("Touch to start")}
           </p>
 
-          <div className="flex justify-center items-center flex-col gap-3">
+          {/* Controles */}
+          <div className="flex justify-center items-center flex-col gap-6">
             <ToggleButton />
 
-            <div className="flex flex-col items-center gap-3 text-white mt-2">
-              <span className="font-bold text-2xl">{t("Font size")}</span>
-              <div className="flex gap-3">
-                {(["small", "medium", "large"] as const).map((size) => (
-                  <button
-                    key={size}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setFontSize(size);
-                    }}
-                    className={`px-6 py-2 text-xl rounded-full border transition ${
-                      fontSize === size
-                        ? "bg-white text-[var(--green-mcdonalds)] font-semibold"
-                        : "bg-transparent border-white"
-                    }`}
-                  >
-                    {t(
-                      size === "small"
-                        ? "Small"
-                        : size === "medium"
-                        ? "Medium"
-                        : "Large"
-                    )}
-                  </button>
-                ))}
-              </div>
+            <div className="mb-6">
+              <FontSizeSelect 
+                initialSize={fontSize}
+                onChange={setFontSize}
+              />
             </div>
           </div>
         </div>
       </div>
 
+      {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
-          <div className="bg-white rounded-2xl px-10 py-10 w-[95%] max-w-[560px] shadow-lg text-center flex flex-col items-center gap-6">
+          <div 
+            className="bg-white rounded-2xl px-10 py-10 w-[95%] max-w-[560px] shadow-lg text-center flex flex-col items-center gap-6"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h2 className={`font-semibold text-gray-900 ${modalTextClass}`}>
               {t("Make your order as yourself!")}
             </h2>
