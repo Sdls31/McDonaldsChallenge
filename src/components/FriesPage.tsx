@@ -6,6 +6,7 @@ import { HiPlus, HiMinus } from "react-icons/hi";
 import AvatarApp from "./AvatarApp";
 import { DialogBox } from "./DialogBox";
 import { useCart } from "../context/CartContext";
+import { useAvatar } from "../context/AvatarContext";
 
 const PRICE_PER_FRY = 0.2;
 const SIZES = ["S", "M", "L"];
@@ -25,6 +26,7 @@ const FriesPage = () => {
 
   const totalFries = COUNTS[sizeIndex] * orderCount;
   const price = (totalFries * PRICE_PER_FRY).toFixed(2);
+  const { isAvatar } = useAvatar();
 
   const handleIncrement = () => {
     if (sizeIndex >= SIZES.length - 1) return;
@@ -236,13 +238,18 @@ const FriesPage = () => {
       BackStep={RoutesEnum.MAIN}
       Component={
         <>
-          <AvatarApp position={avatarPosition} />
-          <DialogBox
-            text="I want this Burger?"
-            side="right"
-            positionAvatar={positionDialogBox}
-            size="small"
-          />
+          {isAvatar && (
+            <>
+              <AvatarApp position={avatarPosition} />
+              <DialogBox
+                text="I want this Burger?"
+                side="right"
+                positionAvatar={positionDialogBox}
+                size="small"
+              />
+            </>
+          )}
+
           <div className="min-h-screen flex justify-center bg-white font-poppins pt-12">
             <div className="w-full max-w-md flex flex-col items-center gap-8 px-6">
               <div className="w-full max-w-[800px] relative z-10 flex flex-col items-center gap-6 mt-6">
@@ -334,32 +341,21 @@ const FriesPage = () => {
                         ${price}
                       </div>
                     </div>
-
-                    <button
-                      onClick={() => {
-                        console.log(
-                          `Añadido al carrito: ${totalFries} fries por $${price}`
-                        );
-                      }}
-                      className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
-                    >
-                      Add to cart
-                    </button>
                   </div>
                   <button
-                  onClick={() => {
-                    addToCart({
-                      id: `fries-${SIZES[sizeIndex]}`, // un ID único por tamaño
-                      name: `Fries (${SIZES[sizeIndex]})`,
-                      price: parseFloat(price),
-                      quantity: orderCount,
-                      image: "src/assets/MenuFries/FriesBox.svg", // puedes cambiarlo por una imagen distinta por tamaño si quieres
-                    });
-                  }}
-                  className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
-                >
-                  Add to cart
-                </button>
+                    onClick={() => {
+                      addToCart({
+                        id: `fries-${SIZES[sizeIndex]}`, // un ID único por tamaño
+                        name: `Fries (${SIZES[sizeIndex]})`,
+                        price: parseFloat(price),
+                        quantity: orderCount,
+                        image: "src/assets/MenuFries/FriesBox.svg", // puedes cambiarlo por una imagen distinta por tamaño si quieres
+                      });
+                    }}
+                    className="w-[300px] bg-[#FFC72C] text-black font-semibold py-3 text-[15px] rounded-md shadow-sm hover:brightness-95 transition duration-200 border border-black/10"
+                  >
+                    Add to cart
+                  </button>
                 </div>
               </div>
             </div>

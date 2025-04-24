@@ -6,6 +6,7 @@ import { findMenuItemByTitle } from "../types/MenuDetails";
 import { useTranslation } from "react-i18next";
 import AvatarApp from "./AvatarApp";
 import { DialogBox } from "./DialogBox";
+import { useAvatar } from "../context/AvatarContext";
 
 export const Burger = () => {
   const { t } = useTranslation();
@@ -17,6 +18,7 @@ export const Burger = () => {
   const increaseQuantity = () => {
     setQuantity((prev) => prev + 1);
   };
+  const { isAvatar } = useAvatar();
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -37,13 +39,19 @@ export const Burger = () => {
 
   const burgerContent = (
     <>
-      <AvatarApp position={avatarPosition} />
-      <DialogBox
-        text="I want this Burger?"
-        side="right"
-        positionAvatar={positionDialogBox}
-        size="small"
-      />
+      {isAvatar && (
+        <>
+          {" "}
+          <AvatarApp position={avatarPosition} />
+          <DialogBox
+            text="I want this Burger?"
+            side="right"
+            positionAvatar={positionDialogBox}
+            size="small"
+          />
+        </>
+      )}
+
       <div className="mt-6 flex flex-col md:flex-row max-w-[650px] mx-auto">
         <div className="w-full md:w-1/2">
           <div className="flex justify-center items-center mb-6">

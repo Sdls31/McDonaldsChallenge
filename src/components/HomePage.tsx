@@ -7,7 +7,9 @@ import { FontSizeSelect } from "./FontSizeSelectProps";
 export const HomePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("small");
+  const [fontSize, setFontSize] = useState<"small" | "medium" | "large">(
+    "small"
+  );
   const [showModal, setShowModal] = useState(false);
 
   const fontSizeClass =
@@ -55,13 +57,14 @@ export const HomePage = () => {
         </div>
 
         {/* Columna de elementos a la derecha */}
-        <div 
-  className="flex pr-[2rem] translate-y-[1rem] items-center justify-center flex-col"
-
+        <div
+          className="flex pr-[2rem] translate-y-[1rem] items-center justify-center flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Texto "Touch to start" */}
-          <p className={`text-white font-bold font-[var(--font-global)] ${fontSizeClass} mb-4`}>
+          <p
+            className={`text-white font-bold font-[var(--font-global)] ${fontSizeClass} mb-4`}
+          >
             {t("Touch to start")}
           </p>
 
@@ -70,10 +73,7 @@ export const HomePage = () => {
             <ToggleButton />
 
             <div className="mb-6">
-              <FontSizeSelect 
-                initialSize={fontSize}
-                onChange={setFontSize}
-              />
+              <FontSizeSelect initialSize={fontSize} onChange={setFontSize} />
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export const HomePage = () => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50">
-          <div 
+          <div
             className="bg-white rounded-2xl px-10 py-10 w-[95%] max-w-[560px] shadow-lg text-center flex flex-col items-center gap-6"
             onClick={(e) => e.stopPropagation()}
           >
@@ -103,13 +103,13 @@ export const HomePage = () => {
 
             <div className="w-full flex flex-col gap-4 mt-4">
               <button
-                onClick={() => navigate("/type")}
+                onClick={() => navigate("/type", { state: { avatar: true } })}
                 className={`bg-[#FFC72C] text-black font-medium rounded-md shadow hover:brightness-95 transition ${modalButtonClass}`}
               >
                 {t("Create my avatar")}
               </button>
               <button
-                onClick={() => navigate("/type")}
+                onClick={() => navigate("/type", { state: { avatar: false } })}
                 className={`bg-[#FFC72C] text-black font-medium rounded-md shadow hover:brightness-95 transition ${modalButtonClass}`}
               >
                 {t("Continue to order")}

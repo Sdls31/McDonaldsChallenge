@@ -6,6 +6,7 @@ import { HiPlus, HiMinus } from "react-icons/hi";
 import AvatarApp from "./AvatarApp";
 import { DialogBox } from "./DialogBox";
 import { useCart } from "../context/CartContext";
+import { useAvatar } from "../context/AvatarContext";
 
 // Porciones disponibles (4, 6, 8, 10, 20 nuggets)
 const PORTIONS = [4, 6, 8, 10, 20];
@@ -26,6 +27,7 @@ const NuggetsPage = () => {
 
   const price = (orderCount * currentCount * PRICE_PER_NUGGET).toFixed(2);
   const { addToCart } = useCart();
+  const { isAvatar } = useAvatar();
   // ----------------------------
   // 🔹 FUNCIONES HANDLER
   // ----------------------------
@@ -89,7 +91,6 @@ const NuggetsPage = () => {
       image: "src/assets/Nugget.svg", // puedes cambiar a una imagen distinta según porción si prefieres
     });
   };
-  
 
   useEffect(() => {
     if (removingNuggets.length === 0) return;
@@ -273,13 +274,18 @@ const NuggetsPage = () => {
       BackStep={RoutesEnum.MAIN}
       Component={
         <>
-          <AvatarApp position={avatarPosition} />
-          <DialogBox
-            text="Crispy and Juicy?"
-            side="right"
-            positionAvatar={positionDialogBox}
-            size="small"
-          />
+          {isAvatar && (
+            <>
+              <AvatarApp position={avatarPosition} />
+              <DialogBox
+                text="Crispy and Juicy?"
+                side="right"
+                positionAvatar={positionDialogBox}
+                size="small"
+              />
+            </>
+          )}
+
           <div className="min-h-screen flex justify-center bg-white font-poppins pt-12">
             <div className="w-full max-w-md flex flex-col items-center gap-8 px-6">
               {/* NUGGET ZONE */}

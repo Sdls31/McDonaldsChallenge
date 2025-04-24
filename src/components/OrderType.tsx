@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AvatarApp from "./AvatarApp";
 import { DialogBox } from "./DialogBox";
+import { useAvatar } from "../context/AvatarContext";
 
 export const OrderType: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<
@@ -10,6 +11,10 @@ export const OrderType: React.FC = () => {
   >(null);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { avatar } = location.state || {};
+  const { isAvatar, setIsAvatar } = useAvatar();
+  setIsAvatar(avatar);
 
   useEffect(() => {
     if (selectedOption) {
@@ -49,13 +54,17 @@ export const OrderType: React.FC = () => {
 
   return (
     <>
-      <AvatarApp position={positionAvatar} />
-      <DialogBox
-        text="How would I like my order?"
-        side="left"
-        positionAvatar={positionDialogBox}
-        size="large"
-      />
+      {isAvatar && (
+        <>
+          <AvatarApp position={positionAvatar} />
+          <DialogBox
+            text="How would I like my order?"
+            side="left"
+            positionAvatar={positionDialogBox}
+            size="large"
+          />
+        </>
+      )}
       <div className="h-[1000px] max-h-[1180px] relative">
         {/* Curvas y logo */}
         <div className="fixed inset-0 z-10 pointer-events-none">
