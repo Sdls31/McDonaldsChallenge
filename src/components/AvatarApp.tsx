@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { FaceMesh, Results as FaceMeshResults } from "@mediapipe/face_mesh";
 import { Hands, Results as HandsResults } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
-import { useAvatar } from "../context/AvatarContext";
 
 interface Features {
   sexo: "M" | "F";
@@ -39,10 +38,9 @@ export function AvatarApp({ position }: AvatarAppProps) {
 
   const [features, setFeatures] = useState<Features | null>(null);
   const [headAngle, setHeadAngle] = useState(0);
-  const [handAngle, setHandAngle] = useState(0);
+  const [, setHandAngle] = useState(0);
   const [blink, setBlink] = useState(false);
   const [talk, setTalk] = useState(false);
-  const { usedImages, setUsedImages } = useAvatar();
   // Ajusta este valor para cambiar el tamaño general del avatar
   const avatarScale = 0.5;
 
@@ -226,109 +224,58 @@ export function AvatarApp({ position }: AvatarAppProps) {
     morena: "little-brown-hand.png",
     clara: "white-hand.png",
   };
-  // const src = {
-  //   head: features
-  //     ? `/mold-head/${headMap[features["color de piel"]] || "head-white.png"}`
-  //     : "",
-  //   blink: features
-  //     ? `/mold-head/${
-  //         blinkMap[features["color de piel"]] || "blink-head-white.png"
-  //       }`
-  //     : "",
-  //   talk: features
-  //     ? `/mold-head/${talkMap[features["color de piel"]] || "talk-white.png"}`
-  //     : "",
-  //   chest: features
-  //     ? `/chest/${
-  //         chestMap[features.color_playera.toLowerCase()] || "white-tshirt.png"
-  //       }`
-  //     : "",
-  //   arm: features
-  //     ? `/chest/${handMap[features["color de piel"]] || "black-hand.png"}`
-  //     : "",
-  //   extras: features?.gorra_deportiva
-  //     ? "/mold-head/black-cap.png"
-  //     : features?.audifonos
-  //     ? "/mold-head/headphones.png"
-  //     : "",
-  //   hair:
-  //     features && !features.gorra_deportiva
-  //       ? features.cabello_rizado
-  //         ? "/mold-head/short-curly-hair.png"
-  //         : features.cabello_largo
-  //         ? "/mold-head/men-long-hair.png"
-  //         : features.cabello_corto
-  //         ? "/mold-head/normal-men-hair-corto.png"
-  //         : ""
-  //       : "",
-  //   beard: features?.barba_completa_corta
-  //     ? features["color de piel"] === "moreno-alto" ||
-  //       features["color de piel"] === "oscura"
-  //       ? "/mold-head/black-beard.png"
-  //       : "/mold-head/short-beard.png"
-  //     : features?.bigote
-  //     ? "/mold-head/mustache.png"
-  //     : "",
-  //   glasses: features?.lentes
-  //     ? "/mold-head/frame black glasses.png"
-  //     : features?.lentes_sol
-  //     ? "/mold-head/sunglasses.png"
-  //     : "",
-  // };
-
-  useEffect(() => {
-    if (Object.keys(usedImages).length === 0) {
-      analyzeImage().catch(console.error);
-    }
-  }, []);
-  useEffect(() => {
-    if (!features) return;
-
-    const src = {
-      head: `/mold-head/${
-        headMap[features["color de piel"]] || "head-white.png"
-      }`,
-      blink: blink
-        ? `/mold-head/${
-            blinkMap[features["color de piel"]] || "blink-head-white.png"
-          }`
-        : null,
-      talk: talk
-        ? `/mold-head/${talkMap[features["color de piel"]] || "talk-white.png"}`
-        : null,
-      chest: `/chest/${
-        chestMap[features.color_playera.toLowerCase()] || "white-tshirt.png"
-      }`,
-      arm: `/chest/${handMap[features["color de piel"]] || "black-hand.png"}`,
-      extras: features.gorra_deportiva
-        ? "/mold-head/black-cap.png"
-        : features.audifonos
-        ? "/mold-head/headphones.png"
-        : null,
-      hair:
-        !features.gorra_deportiva && features.cabello_rizado
+  const src = {
+    head: features
+      ? `/mold-head/${headMap[features["color de piel"]] || "head-white.png"}`
+      : "",
+    blink: features
+      ? `/mold-head/${
+          blinkMap[features["color de piel"]] || "blink-head-white.png"
+        }`
+      : "",
+    talk: features
+      ? `/mold-head/${talkMap[features["color de piel"]] || "talk-white.png"}`
+      : "",
+    chest: features
+      ? `/chest/${
+          chestMap[features.color_playera.toLowerCase()] || "white-tshirt.png"
+        }`
+      : "",
+    arm: features
+      ? `/chest/${handMap[features["color de piel"]] || "black-hand.png"}`
+      : "",
+    extras: features?.gorra_deportiva
+      ? "/mold-head/black-cap.png"
+      : features?.audifonos
+      ? "/mold-head/headphones.png"
+      : "",
+    hair:
+      features && !features.gorra_deportiva
+        ? features.cabello_rizado
           ? "/mold-head/short-curly-hair.png"
-          : !features.gorra_deportiva && features.cabello_largo
+          : features.cabello_largo
           ? "/mold-head/men-long-hair.png"
-          : !features.gorra_deportiva && features.cabello_corto
+          : features.cabello_corto
           ? "/mold-head/normal-men-hair-corto.png"
-          : null,
-      beard: features.barba_completa_corta
-        ? ["moreno-alto", "oscura"].includes(features["color de piel"])
-          ? "/mold-head/black-beard.png"
-          : "/mold-head/short-beard.png"
-        : features.bigote
-        ? "/mold-head/mustache.png"
-        : null,
-      glasses: features.lentes
-        ? "/mold-head/frame black glasses.png"
-        : features.lentes_sol
-        ? "/mold-head/sunglasses.png"
-        : null,
-    };
+          : ""
+        : "",
+    beard: features?.barba_completa_corta
+      ? features["color de piel"] === "moreno-alto"
+        ? "/mold-head/black-beard.png"
+        : "/mold-head/short-beard.png"
+      : features?.bigote
+      ? "/mold-head/mustache.png"
+      : "",
+    glasses: features?.lentes
+      ? "/mold-head/frame black glasses.png"
+      : features?.lentes_sol
+      ? "/mold-head/sunglasses.png"
+      : "",
+  };
 
-    setUsedImages(src); // ✅ Guardado global en el contexto
-  }, [features, blink, talk]);
+  useEffect(() => {
+    analyzeImage().catch(console.error);
+  }, []);
 
   return (
     <div
@@ -340,87 +287,75 @@ export function AvatarApp({ position }: AvatarAppProps) {
     >
       <video ref={videoRef} className="hidden" autoPlay playsInline />
       <canvas ref={snapshotRef} width={320} height={240} className="hidden" />
-      {usedImages && Object.keys(usedImages).length > 0 && (
+      {features && (
         <div
           className="absolute w-[320px] h-[240px] mt-4 z-60"
-          style={{
-            top: position.top,
-            left: position.left ? position.left : "",
-            right: position.right ? position.right : "",
-          }}
+          style={{ top: position.top, left: position.left }}
         >
-          {usedImages.chest && (
-            <img
-              src={usedImages.chest}
-              className="absolute left-0 right-0"
-              alt="chest"
-              style={{ top: "75%", width: "100%", height: "auto", zIndex: 0 }}
-              onError={() =>
-                console.error("Error loading chest image:", usedImages.chest)
-              }
-            />
-          )}
-
-          {usedImages.arm && (
-            <img
-              src={usedImages.arm}
-              className="absolute inset-x-0 w-full h-full z-20"
-              style={{ top: "60px", bottom: "auto", left: "30px" }}
-              alt="arm"
-            />
-          )}
-
+          <img
+            src={src.chest}
+            className="absolute left-0 right-0"
+            alt="chest"
+            style={{ top: "75%", width: "100%", height: "auto", zIndex: 0 }}
+            onError={() =>
+              console.error("Error loading chest image:", src.chest)
+            }
+          />
+          <img
+            src={src.arm}
+            className="absolute inset-x-0 w-full h-full z-20"
+            style={{ top: "60px", bottom: "auto", left: "30px" }}
+            alt=""
+          />
           <div
             className="absolute inset-0 origin-bottom-center"
             style={{ transform: `rotate(${headAngle}deg)` }}
           >
-            {usedImages.head && (
+            <img
+              src={src.head}
+              className="absolute inset-0 w-full h-full"
+              alt=""
+            />
+            {src.hair && (
               <img
-                src={usedImages.head}
+                src={src.hair}
                 className="absolute inset-0 w-full h-full"
-                alt="head"
+                alt=""
               />
             )}
-            {usedImages.hair && (
+            {src.extras && (
               <img
-                src={usedImages.hair}
+                src={src.extras}
                 className="absolute inset-0 w-full h-full"
-                alt="hair"
+                alt=""
               />
             )}
-            {usedImages.extras && (
+            {src.beard && (
               <img
-                src={usedImages.extras}
+                src={src.beard}
                 className="absolute inset-0 w-full h-full"
-                alt="extras"
+                alt=""
               />
             )}
-            {usedImages.beard && (
+            {src.glasses && (
               <img
-                src={usedImages.beard}
+                src={src.glasses}
                 className="absolute inset-0 w-full h-full"
-                alt="beard"
+                alt=""
               />
             )}
-            {usedImages.glasses && (
+            {blink && (
               <img
-                src={usedImages.glasses}
-                className="absolute inset-0 w-full h-full"
-                alt="glasses"
-              />
-            )}
-            {usedImages.blink && (
-              <img
-                src={usedImages.blink}
+                src={src.blink}
                 className="absolute inset-0 w-full h-full z-10"
-                alt="blink"
+                alt=""
               />
             )}
-            {usedImages.talk && (
+            {talk && (
               <img
-                src={usedImages.talk}
+                src={src.talk}
                 className="absolute inset-0 w-full h-full z-20"
-                alt="talk"
+                alt=""
               />
             )}
           </div>

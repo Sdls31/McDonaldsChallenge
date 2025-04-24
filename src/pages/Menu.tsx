@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AvatarApp } from "../components/AvatarApp";
 import { DialogBox } from "../components/DialogBox";
+import { useAvatar } from "../context/AvatarContext";
 
 interface GridMenuProps {
   onTitleChange: (title: string) => void;
@@ -21,6 +22,7 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
   const currentItem = verticalMenuItems.Items[selectedAnimation];
   const menuKey = currentItem?.key as keyof typeof menu;
   const items = menu[menuKey] ?? [];
+  const { isAvatar } = useAvatar();
 
   const avatarPosition = {
     top: "1100px",
@@ -33,13 +35,17 @@ const GridMenu: React.FC<GridMenuProps> = ({ onTitleChange }) => {
 
   return (
     <>
-      <AvatarApp position={avatarPosition} />
-      <DialogBox
-        text="Crispy and Golden?"
-        side="left"
-        positionAvatar={positionDialogBox}
-        size="large"
-      />
+      {isAvatar && (
+        <>
+          <AvatarApp position={avatarPosition} />
+          <DialogBox
+            text="Crispy and Golden?"
+            side="left"
+            positionAvatar={positionDialogBox}
+            size="large"
+          />
+        </>
+      )}
       <div className="max-h-[800px] overflow-hidden grid grid-cols-5 grid-rows-5 gap-2">
         <div className="row-span-5 relative z-20 flex items-center justify-content">
           <div className="relative h-[25rem] w-full overflow-hidden">
