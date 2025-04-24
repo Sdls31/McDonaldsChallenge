@@ -11,7 +11,6 @@ import { FriesProcess } from "../components/FriesPage";
 import { HappyMealPage } from "../components/HappyMealPage";
 import { Checkout } from "../components/Checkout";
 import { Qr } from "../components/Qr";
-import { AvatarApp } from "../components/AvatarApp";
 import { AvatarProvider } from "../context/AvatarContext";
 import SwipeAnimation from "../components/SwipeAnimation";
 

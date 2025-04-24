@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { FaceMesh, Results as FaceMeshResults } from "@mediapipe/face_mesh";
 import { Hands, Results as HandsResults } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
-import { useCart } from "../context/CartContext";
 import { useAvatar } from "../context/AvatarContext";
 
 interface Features {
@@ -40,7 +39,7 @@ export function AvatarApp({ position }: AvatarAppProps) {
 
   const [features, setFeatures] = useState<Features | null>(null);
   const [headAngle, setHeadAngle] = useState(0);
-  const [handAngle, setHandAngle] = useState(0);
+  const [, setHandAngle] = useState(0);
   const [blink, setBlink] = useState(false);
   const [talk, setTalk] = useState(false);
   const { usedImages, setUsedImages } = useAvatar();
