@@ -11,7 +11,6 @@ import { FriesProcess } from "../components/FriesPage";
 import { HappyMealPage } from "../components/HappyMealPage";
 import { Checkout } from "../components/Checkout";
 import { Qr } from "../components/Qr";
-import { AvatarApp } from "../components/AvatarApp";
 import SwipeAnimation from "../components/SwipeAnimation";
 
 
@@ -72,7 +71,6 @@ export const Routes = () => {
         }
       />
 
-      <Route path={RoutesEnum.AVATAR} element={<AvatarApp />} />
     </RoutesFromRouter>
   );
 };
