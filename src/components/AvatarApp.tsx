@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { FaceMesh, Results as FaceMeshResults } from "@mediapipe/face_mesh";
 import { Hands, Results as HandsResults } from "@mediapipe/hands";
 import { Camera } from "@mediapipe/camera_utils";
-import { useCart } from "../context/CartContext";
 import { useAvatar } from "../context/AvatarContext";
 
 interface Features {
